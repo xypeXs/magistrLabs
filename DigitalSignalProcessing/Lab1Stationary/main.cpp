@@ -4,11 +4,14 @@
 #include <locale>
 #include <cmath>
 #include <algorithm>
+#include <iomanip>
 
 using namespace std;
 
 typedef long long ll;
 typedef long double ld;
+
+typedef ld metricFunc(vector<ld>, ll, ll);
 
 #define d_c(type, var) type var; cin >> var;
 #define d_cl(var) d_c(ll, var);
@@ -37,7 +40,12 @@ struct Comma final : std::numpunct<char> {
     char do_decimal_point() const override { return ','; }
 };
 
-vector<ld> readDataFromFile(string path) {
+struct MetricProvider {
+    metricFunc *compute;
+    string name;
+};
+
+vector<ld> readDataFromFile(const string &path) {
     ifstream is(path);
     if (!is.is_open())
         throw;
@@ -53,7 +61,7 @@ vector<ld> readDataFromFile(string path) {
     return dataVec;
 }
 
-vector<pair<ll, vector<ll>>> readProbDataFromFile(string path) {
+vector<pair<ll, vector<ll>>> readProbDataFromFile(const string &path) {
     ifstream is(path);
     if (!is.is_open())
         throw;
@@ -69,12 +77,12 @@ vector<pair<ll, vector<ll>>> readProbDataFromFile(string path) {
     return probVec;
 }
 
-void printVec(vector<ld> dataVec, string delimiter) {
+void printVec(const vector<ld> &dataVec, const string &delimiter) {
     for (ld x: dataVec)
         cout << x << delimiter;
 }
 
-void printVec(vector<ld> dataVec) {
+void printVec(const vector<ld> &dataVec) {
     printVec(dataVec, " ");
 }
 
@@ -110,11 +118,11 @@ ll getTotalBlocksCount(ll size, ll blockSize) {
     return size / blockSize + (size % blockSize > 0);
 }
 
-vector<ld> getBlockMetricVector(vector<ld> dataVec, ll blockSize, ld (metricProvider)(vector<ld>, ll, ll)) {
+vector<ld> getBlockMetricVector(const vector<ld> &dataVec, ll blockSize, const MetricProvider &metricProvider) {
     ll totalBlocks = getTotalBlocksCount(dataVec.size(), blockSize);
     vector<ld> blockMetrics(totalBlocks);
     for (ll blockInd = 0; blockInd < totalBlocks; blockInd++) {
-        ld computedMetric = metricProvider(dataVec, blockInd * blockSize, (blockInd + 1) * blockSize - 1);
+        ld computedMetric = metricProvider.compute(dataVec, blockInd * blockSize, (blockInd + 1) * blockSize - 1);
         blockMetrics[blockInd] = (computedMetric);
     }
     return blockMetrics;
@@ -130,6 +138,23 @@ ld averageSquare(vector<ld> dataVec, ll lPos, ll rPos) {
     return 1.0l / (rPos - lPos + 1) * res;
 }
 
+// Средне квадратическое отклонение
+ld squaredDistance(vector<ld> dataVec, ll lPos, ll rPos) {
+    ll n = (rPos - lPos + 1);
+    ld avg = 0.0l;
+    if (lPos >= dataVec.size())
+        return 0.0l;
+    for (ll i = lPos; i <= min(rPos, (ll) dataVec.size() - 1); i++)
+        avg += dataVec[i];
+    avg /= n;
+
+    ld res = 0.0l;
+    for (ll i = lPos; i <= min(rPos, (ll) dataVec.size() - 1); i++)
+        res += pow(dataVec[i] - avg, 2);
+
+    return sqrt(res / (n));
+}
+
 vector<ll> getInverseVector(vector<ld> dataVec) {
     vector<ll> inverseVec(dataVec.size() - 1);
     for (ll i = 0; i < dataVec.size() - 1; i++) {
@@ -143,7 +168,7 @@ vector<ll> getInverseVector(vector<ld> dataVec) {
     return inverseVec;
 }
 
-ll sumVec(vector<ll> dataVec) {
+ll sumVec(const vector<ll> &dataVec) {
     ll sum = 0;
     for (ll x: dataVec)
         sum += x;
@@ -164,121 +189,200 @@ ll getProb(vector<pair<ll, vector<ll>>> probVec, ll N2, ll probInd) {
     if (probVec[lessN2Ind].first == N2)
         return probVec[lessN2Ind].second[probInd];
 
-    ld dy, dx, k;
+    ld dy, dx, k, b;
+    ll i, inext;
 
-    if (probVec[lessN2Ind].first < N2) {
-        if (lessN2Ind >= probVec.size()) {
-            dy = probVec[lessN2Ind].second[probInd] - probVec[lessN2Ind - 1].second[probInd];
-            dx = probVec[lessN2Ind].first - probVec[lessN2Ind - 1].first;
-        } else {
-            dy = probVec[lessN2Ind + 1].second[probInd] - probVec[lessN2Ind].second[probInd];
-            dx = probVec[lessN2Ind + 1].first - probVec[lessN2Ind].first;
-        }
-    } else { // Стоим на первом элементе
-        dy = probVec[lessN2Ind + 1].second[probInd] - probVec[lessN2Ind].second[probInd];
-        dx = probVec[lessN2Ind + 1].first - probVec[lessN2Ind].first;
+    if (probVec[lessN2Ind].first < N2 || lessN2Ind == probVec.size() - 1) {
+            inext = lessN2Ind;
+            i = lessN2Ind - 1;
+    } else {
+        inext = lessN2Ind + 1;
+        i = lessN2Ind;
     }
 
+    dy = probVec[inext].second[probInd] - probVec[i].second[probInd];
+    dx = probVec[inext].first - probVec[i].first;
     k = (ld) dy / dx;
-    return (ll) (k * N2);
+    b = ((probVec[inext].second[probInd] - k * probVec[inext].first) + (probVec[i].second[probInd] - k * probVec[i].first)) / 2.0l;
+    return (ll) (k * N2 + b);
 
 }
 
-vector<stationery_gip> getSeriesGip(vector<ld> dataVec, ll blockCntFrom, ll blockCntTo) {
+vector<stationery_gip>
+getSeriesGip(const vector<ld> &dataVec, ll blockCntFrom, ll blockCntTo, const MetricProvider &metricProvider) {
     vector<pair<ll, vector<ll>>> seriesProbVec = readProbDataFromFile(
-            "C:\\university\\magistr\\labs\\DigitalSignalProcessing\\Lab1Stationary\\seriesProb.txt");
+            "..\\seriesProb.txt");
 
     vector<stationery_gip> result;
     for (ll blockSize = blockCntFrom; blockSize <= blockCntTo; blockSize++) {
-        vector<ld> metricBlockVec = getBlockMetricVector(dataVec, blockSize, &averageSquare);
+        vector<ld> metricBlockVec = getBlockMetricVector(dataVec, blockSize, metricProvider);
         vector<pair<ll, pair<ll, ll>>> seriesVec = getSeries(metricBlockVec);
 
         ll N2 = metricBlockVec.size() / 2;
         stationery_gip gip;
-        gip.name = ("SERIES_AVG_SQUARE_" + to_string(blockSize));
+        gip.name = ("S-" + to_string(blockSize));
         gip.b = blockSize;
         gip.N = N2;
         gip.metricCnt = seriesVec.size();
-        gip.p095 = getProb(seriesProbVec, seriesVec.size(), 2);
-        gip.p005 = getProb(seriesProbVec, seriesVec.size(), 3);
-        gip.p099 = getProb(seriesProbVec, seriesVec.size(), 0);
-        gip.p001 = getProb(seriesProbVec, seriesVec.size(), 5);
+        gip.p095 = getProb(seriesProbVec, N2, 2);
+        gip.p005 = getProb(seriesProbVec, N2, 3);
+        gip.p099 = getProb(seriesProbVec, N2, 0);
+        gip.p001 = getProb(seriesProbVec, N2, 5);
 
         result.push_back(gip);
     }
     return result;
 }
 
-vector<stationery_gip> getInverseGip(vector<ld> dataVec, ll blockCntFrom, ll blockCntTo) {
+vector<stationery_gip> getInverseGip(vector<ld> dataVec, ll blockCntFrom, ll blockCntTo, const MetricProvider &metricProvider) {
     vector<pair<ll, vector<ll>>> inverseProbVec = readProbDataFromFile(
-            "C:\\university\\magistr\\labs\\DigitalSignalProcessing\\Lab1Stationary\\inverseProb.txt");
+            "..\\inverseProb.txt");
 
     vector<stationery_gip> result;
     for (ll blockSize = blockCntFrom; blockSize <= blockCntTo; blockSize++) {
-        vector<ld> metricBlockVec = getBlockMetricVector(dataVec, blockSize, &averageSquare);
+        vector<ld> metricBlockVec = getBlockMetricVector(dataVec, blockSize, metricProvider);
         vector<ll> inverseVec = getInverseVector(metricBlockVec);
 
-        ll N2 = metricBlockVec.size() / 2;
+        ll N = metricBlockVec.size();
         stationery_gip gip;
-        gip.name = ("INVERSE_AVG_SQUARE_" + to_string(blockSize));
+        gip.name = ("I-" + to_string(blockSize));
         gip.b = blockSize;
-        gip.N = N2;
-        gip.metricCnt = inverseVec.size();
-        gip.p095 = getProb(inverseProbVec, inverseVec.size(), 2);
-        gip.p005 = getProb(inverseProbVec, inverseVec.size(), 3);
-        gip.p099 = getProb(inverseProbVec, inverseVec.size(), 0);
-        gip.p001 = getProb(inverseProbVec, inverseVec.size(), 5);
+        gip.N = N;
+        gip.metricCnt = sumVec(inverseVec);
+        gip.p095 = getProb(inverseProbVec, N, 2);
+        gip.p005 = getProb(inverseProbVec, N, 3);
+        gip.p099 = getProb(inverseProbVec, N, 0);
+        gip.p001 = getProb(inverseProbVec, N, 5);
 
         result.push_back(gip);
     }
     return result;
 }
 
-void printTableGip(string name, vector<stationery_gip> gip_vec) {
-    cout << "-----------TABLE " + name + "-----------" << '\n';
-    for (stationery_gip gip : gip_vec) {
-        cout << gip.name << ' '
-        << gip.b << ' '
-        << gip.N << ' '
-        << gip.metricCnt << ' '
-        << gip.p095 << ' '
-        << gip.p005 << ' '
-        << gip.p099 << ' '
-        << gip.p001
-        << '\n';
+template<typename T>
+void printElement(T t) {
+    cout << left << setw(8) << setfill(' ') << t;
+}
+
+void printTableInverseGip(const vector<stationery_gip> &inverseGipVec) {
+    cout << left << "----------------------- TABLE INVERSE -----------------------" << '\n';
+    printElement("NAME");
+    printElement("b");
+    printElement("N");
+    printElement("Cnt");
+    printElement("a095");
+    printElement("a005");
+    printElement("a099");
+    printElement("a001");
+    cout << '\n';
+
+    for (const stationery_gip &gip: inverseGipVec) {
+        printElement(gip.name);
+        printElement(gip.b);
+        printElement(gip.N);
+        printElement(gip.metricCnt);
+        printElement(gip.p095);
+        printElement(gip.p005);
+        printElement(gip.p099);
+        printElement(gip.p001);
+        cout << '\n';
     }
 }
 
-bool isAck(ld r, ld Nb, ld a, ld Nr) {
-    return r * Nb / 2
-}
+void printTableSeriesGip(const vector<stationery_gip> &seriesGipVec) {
+    cout << left << "----------------------- TABLE SERIES -----------------------" << '\n';
+    printElement("NAME");
+    printElement("b");
+    printElement("N/2");
+    printElement("Cnt");
+    printElement("a095");
+    printElement("a005");
+    printElement("a099");
+    printElement("a001");
+    cout << '\n';
 
-vector<gip_ack> getAckGip(vector<ld> blockVec, vector<stationery_gip> seriesVec, vector<stationery_gip> inverseVec) {
-    ld median = getMedian(blockVec);
-    for (ll i = 0; i < seriesVec.size(); i++) {
-        gip_ack ack;
-        ack.name = "ACK " + to_string(seriesVec[i].b);
-        ack.fi1 =
+    for (const stationery_gip &gip: seriesGipVec) {
+        printElement(gip.name);
+        printElement(gip.b);
+        printElement(gip.N);
+        printElement(gip.metricCnt);
+        printElement(gip.p095);
+        printElement(gip.p005);
+        printElement(gip.p099);
+        printElement(gip.p001);
+        cout << '\n';
     }
 }
 
-void compute(vector<ld> dataVec, ll blockSizeFrom, ll blockSizeTo) {
-    vector<stationery_gip> seriesGip = getSeriesGip(dataVec, blockSizeFrom, blockSizeTo);
-    vector<stationery_gip> inverseGip = getInverseGip(dataVec, blockSizeFrom, blockSizeTo);
 
+bool isAckSeries(ll value, ll left, ll right) {
+    return left < value && value <= right;
+}
 
-    printTableGip("SERIES", seriesGip);
-    printTableGip("INVERSE", seriesGip);
+bool isAckInverse(ll value, ll left, ll right) {
+    return left < value && value < right;
+}
+
+void printTableAckGip(const vector<stationery_gip> &seriesGipVec, const vector<stationery_gip> &inverseGipVec) {
+    cout << left << "----------------------- TABLE 3 -----------------------" << '\n';
+    printElement("NAME");
+    printElement("b");
+    printElement("phi1");
+    printElement("phi2");
+    printElement("psi1");
+    printElement("psi2");
+    cout << '\n';
+
+    for (ll i = 0; i < min(seriesGipVec.size(), inverseGipVec.size()); i++) {
+        auto& series_gip = seriesGipVec[i];
+        auto& inverse_gip = inverseGipVec[i];
+
+        int isAckSeries1 = isAckSeries(series_gip.metricCnt, series_gip.p095, series_gip.p005);
+        int isAckSeries2 = isAckSeries(series_gip.metricCnt, series_gip.p099, series_gip.p001);
+        int isAckInverse1 = isAckSeries(inverse_gip.metricCnt, inverse_gip.p095, inverse_gip.p005);
+        int isAckInverse2 = isAckSeries(inverse_gip.metricCnt, inverse_gip.p099, inverse_gip.p001);
+
+        printElement("SI-" + to_string(series_gip.b));
+        printElement(series_gip.b);
+        printElement(isAckSeries1);
+        printElement(isAckSeries2);
+        printElement(isAckInverse1);
+        printElement(isAckInverse2);
+
+        cout << '\n';
+    }
+}
+
+void compute(const vector<ld>& dataVec, ll blockSizeFrom, ll blockSizeTo, const vector<MetricProvider> &metricProviders) {
+    for (const auto &metric: metricProviders) {
+        cout << "------------------------------------------------------------------------------" << '\n';
+        cout << "SIGNAL ANALYZE BY METRIC: " << metric.name << '\n';
+        vector<stationery_gip> seriesGipVec = getSeriesGip(dataVec, blockSizeFrom, blockSizeTo, metric);
+        vector<stationery_gip> inverseGipVec = getInverseGip(dataVec, blockSizeFrom, blockSizeTo, metric);
+
+        printTableSeriesGip(seriesGipVec);
+        printTableInverseGip(inverseGipVec);
+        printTableAckGip(seriesGipVec, inverseGipVec);
+        cout << "------------------------------------------------------------------------------" << '\n';
+    }
 }
 
 // 3 ВАРИАНТ
 int main() {
-    vector<ld> dataVec = readDataFromFile(
-            "C:\\university\\magistr\\labs\\DigitalSignalProcessing\\Lab1Stationary\\HL_Makh.txt");
+    vector<ld> dataVec = readDataFromFile("..\\N31.txt");
 
     cout << "Print block sizes (from, to): ";
     d_cl(blockCntFrom);
     d_cl(blockCntTo);
-    compute(dataVec, blockCntFrom, blockCntTo);
+
+    MetricProvider avgSq;
+    avgSq.name = "Average Square";
+    avgSq.compute = &averageSquare;
+
+    MetricProvider sqrtDist;
+    sqrtDist.name = "Squared Distance";
+    sqrtDist.compute = &squaredDistance;
+
+    compute(dataVec, blockCntFrom, blockCntTo, {avgSq, sqrtDist});
     return 0;
 }
