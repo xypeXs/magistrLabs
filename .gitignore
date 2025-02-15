@@ -254,3 +254,5 @@ cython_debug/
 .pypirc
 
 venv/
+cmake-build-debug/
+.ini
