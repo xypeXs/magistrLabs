@@ -3,13 +3,21 @@ import math
 import matplotlib.pyplot as plt
 import numpy as np
 
-path = "N31.txt"
+path = "rl.txt"
 
 with open(path) as file:
     data = [float(line.strip().replace(',', '.')) for line in file]
 
+print(f'length of signal: {len(data)}')
+
 data = data[: 2 ** math.floor(math.log2(len(data)))]
 
+print(f'length of Ns sequence: {len(data)}')
+
+fd = 8000
+
+N = len(data)  # длина реализации
+dt = 1 / int(fd)  # шаг дискретизации
 
 def wavelet():
     tempWaveletAprxLevels = [data]
@@ -98,12 +106,12 @@ def computeContrast(Ewlt):
 
 def printMetric(name, mlt):
     print(name)
-    print('\n'.join([''.join(['{:4.3f} '.format(item) for item in row])
+    print('\n'.join([''.join(['{:4.5f} '.format(item) for item in row])
                      for row in mlt]))
 
 def printArr(name, arr):
     print(name)
-    print('\n'.join([''.join(['{:4.3f} '.format(item) for item in arr])]))
+    print('\n'.join([''.join(['{:4.5f} '.format(item) for item in arr])]))
 
 
 def showMetric(name, mlt):
@@ -119,7 +127,7 @@ def showMetric(name, mlt):
 def printLocalEnergyCharacteristics(name, local_energy):
     print(name)
     for l in range(len(local_energy)):
-        print(f'{l:4} {max(local_energy[l]):4.3f} {min(local_energy[l]):4.3f}')
+        print(f'{l:4} {max(local_energy[l]):4.5f} {min(local_energy[l]):4.5f}')
 
 waveletApproximations, waveletDetails = wavelet()
 
@@ -132,5 +140,11 @@ printLocalEnergyCharacteristics('Local energy Details', local_energy_details)
 printArr('Global Energy Approx', computeGlobalEnergySpectrum(local_energy_approximations))
 printArr('Global Energy Details', computeGlobalEnergySpectrum(local_energy_details))
 # showMetric('Energy density', computeLocalPeremezhaemost(waveletDetails))
+
+# printMetric('Local Peremezhaemost Approx', computeLocalPeremezhaemost(local_energy_approximations))
+# printMetric('Local Peremezhaemost Details', computeLocalPeremezhaemost(local_energy_details))
+#
+# printMetric('Contrast Approx', computeContrast(local_energy_approximations))
+# printMetric('Contrast Details', computeContrast(local_energy_details))
 
 # TODO print modul_signal wavelet coeff
