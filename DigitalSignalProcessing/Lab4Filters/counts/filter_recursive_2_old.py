@@ -2,17 +2,16 @@ import numpy as np
 import matplotlib.pyplot as plt
 from scipy import signal
 
-path = "modul_signal.txt"
+path = "../TestLab4GE.txt"
 
 with open(path) as file:
     input_signal = [float(line.strip().replace(',', '.')) for line in file]
 
 # Функция для анализа трансверсального фильтра
-def analyze_recursive_filter(b1, input_signal):
-    title = 'b1=' + str(b1);
+def analyze_recursive_2_filter(a0, a1, a2, b1, b2, input_signal, title):
     # Коэффициенты фильтра (трансверсальный, поэтому знаменатель [1])
-    b = [1]
-    a = [1, -b1]
+    b = [a0, a1, a2]
+    a = [1, -b1, -b2]
 
     # Нули и полюса
     zeros = np.roots(b)
@@ -82,9 +81,14 @@ def analyze_recursive_filter(b1, input_signal):
 
     return zeros
 
-# Параметры для исследования
-b1_values = [-1, -0.5, 0, 0.5, 1]  # Более детальный перебор значений
+# # Параметры для исследования
+# b1_values = [-2, -1.5, -1, -0.5, 0, 0.5, 1, 1.5, 2]  # Более детальный перебор значений
+#
+# for b1 in b1_values:
+#     zeros = analyze_recursive_2_filter(1, 0, 0, b1, -0.9, input_signal, 'b1=' + str(b1))
 
-# Анализ для каждого a1/a0
-for b1 in b1_values:
-    zeros = analyze_recursive_filter(b1, input_signal)
+# Параметры для исследования
+b2_values = np.linspace(0.2, 0.95, 10)  # Более детальный перебор значений
+
+for b2 in b2_values:
+    zeros = analyze_recursive_2_filter(1, 0, 0, 0, b2, input_signal, 'b2=' + str(b2))

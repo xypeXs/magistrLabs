@@ -2,16 +2,17 @@ import numpy as np
 import matplotlib.pyplot as plt
 from scipy import signal
 
-path = "modul_signal.txt"
+path = "../modul_signal.txt"
 
 with open(path) as file:
     input_signal = [float(line.strip().replace(',', '.')) for line in file]
 
 # Функция для анализа трансверсального фильтра
-def analyze_recursive_2_filter(a0, a1, a2, b1, b2, input_signal, title):
+def analyze_recursive_filter(b1, input_signal):
+    title = 'b1=' + str(b1);
     # Коэффициенты фильтра (трансверсальный, поэтому знаменатель [1])
-    b = [a0, a1, a2]
-    a = [1, -b1, -b2]
+    b = [1]
+    a = [1, -b1]
 
     # Нули и полюса
     zeros = np.roots(b)
@@ -34,8 +35,8 @@ def analyze_recursive_2_filter(a0, a1, a2, b1, b2, input_signal, title):
     # Нули и полюса
     plt.subplot(2, 2, 1)
     plt.title(f'Нули и полюса ({title})')
-    plt.scatter(np.real(zeros), np.imag(zeros), marker='o', color='r', label='Нули')
-    plt.scatter(np.real(poles), np.imag(poles), marker='x', color='b', label='Полюса')
+    plt.scatter(np.real(zeros), np.imag(zeros), marker='o', color='r', label='Нули', s=150)
+    plt.scatter(np.real(poles), np.imag(poles), marker='x', color='b', label='Полюса', s=150)
     theta = np.linspace(0, 2 * np.pi, 100)
     plt.plot(np.cos(theta), np.sin(theta), 'k--', label='Единичная окружность')
 
@@ -81,14 +82,9 @@ def analyze_recursive_2_filter(a0, a1, a2, b1, b2, input_signal, title):
 
     return zeros
 
-# # Параметры для исследования
-# b1_values = [-2, -1.5, -1, -0.5, 0, 0.5, 1, 1.5, 2]  # Более детальный перебор значений
-#
-# for b1 in b1_values:
-#     zeros = analyze_recursive_2_filter(1, 0, 0, b1, -0.9, input_signal, 'b1=' + str(b1))
-
 # Параметры для исследования
-b2_values = np.linspace(0.2, 0.95, 10)  # Более детальный перебор значений
+b1_values = [-1, -0.5, 0, 0.5, 1]  # Более детальный перебор значений
 
-for b2 in b2_values:
-    zeros = analyze_recursive_2_filter(1, 0, 0, 0, b2, input_signal, 'b2=' + str(b2))
+# Анализ для каждого a1/a0
+for b1 in b1_values:
+    zeros = analyze_recursive_filter(b1, input_signal)

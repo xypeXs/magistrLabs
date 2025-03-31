@@ -2,7 +2,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 from scipy import signal
 
-path = "modul_signal.txt"
+path = "../TestLab4GE.txt"
 
 with open(path) as file:
     input_signal = [float(line.strip().replace(',', '.')) for line in file]
@@ -38,10 +38,10 @@ def analyze_transversal_filter(a1_over_a0, a2_over_a0, title, input_signal):
     # Нули и полюса
     plt.subplot(2, 2, 1)
     plt.title(f'Нули и полюса ({title})')
-    plt.scatter(np.real(zeros), np.imag(zeros), marker='o', color='r', label='Нули')
-    plt.scatter(np.real(poles), np.imag(poles), marker='x', color='b', label='Полюса')
+    plt.scatter(np.real(zeros), np.imag(zeros), marker='o', color='r', label='Нули', s=150)
+    plt.scatter(np.real(poles), np.imag(poles), marker='x', color='b', label='Полюса', s=150)
     theta = np.linspace(0, 2 * np.pi, 100)
-    plt.plot(np.cos(theta), np.sin(theta), 'k--', label='Единичная окружность')
+    plt.plot(np.cos(theta), np.sin(theta), 'k--')
 
     # Рисуем лучи от центра к нулям
     for zero in zeros:
@@ -53,7 +53,7 @@ def analyze_transversal_filter(a1_over_a0, a2_over_a0, title, input_signal):
     plt.ylabel('Im(z)')
     plt.grid(True)
     plt.axis('equal')
-    plt.legend()
+    plt.legend(loc='upper left')
 
     # АЧХ
     plt.subplot(2, 2, 2)
@@ -77,7 +77,7 @@ def analyze_transversal_filter(a1_over_a0, a2_over_a0, title, input_signal):
     plt.plot(output_signal, '-r', label='Выход')
     plt.xlabel('Отсчеты')
     plt.ylabel('Сигнал')
-    plt.legend()
+    plt.legend(loc='upper right')
     plt.grid(True)
 
     plt.tight_layout()
