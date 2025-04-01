@@ -3,7 +3,7 @@ import math
 import matplotlib.pyplot as plt
 import numpy as np
 
-path = "rl.txt"
+path = "TestLab4GE.txt"
 
 with open(path) as file:
     data = [float(line.strip().replace(',', '.')) for line in file]
