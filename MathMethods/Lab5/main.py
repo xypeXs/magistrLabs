@@ -116,6 +116,7 @@ def analyzeMinimumDistanceMatr(minDistance_matr):
     centrInd = k * (2 * Zmax - (k + 1)) / (Zmax * (k - 1))
 
     printMatr(res_matr, "Матрица минимальной длины")
+    print("Q = " + str(Q))
     print("Qотн = " + str(Qrel))
     print("Индекс центральности δ = " + str(centrInd))
 
