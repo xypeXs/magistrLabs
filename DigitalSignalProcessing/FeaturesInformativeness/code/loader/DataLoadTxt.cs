@@ -9,7 +9,7 @@ namespace loader
 {
     public class DataLoadTxt : IDataLoader
     {
-        public FeaturesData loadData(string url)
+        public FeaturesData LoadData(string url)
         {
             var data = new FeaturesData();
             var lines = File.ReadAllLines(url);

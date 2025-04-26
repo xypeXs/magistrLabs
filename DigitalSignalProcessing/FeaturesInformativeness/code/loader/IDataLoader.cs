@@ -9,6 +9,6 @@ namespace loader
 {
     public interface IDataLoader
     {
-        public FeaturesData loadData(string url);
+        public FeaturesData LoadData(string url);
     }
 }
