@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using calculator.distance;
+﻿using calculator.distance;
 using calculator.informativeness;
 using code.data;
-using data;
 using loader;
 //using ScottPlot;
 
@@ -19,9 +14,14 @@ class Program
         var data = dataLoader.LoadData("./resources/Th.txt");
 
         IInformativenessCalculator informativenessCalculator = new InformativenessCalculatorDefault();
-        InformativenessCalculationResult informativeness = informativenessCalculator.Calculate(data, new DistanceCalculatorEuclidean());
+        InformativenessCalculationResult informativenessEuclidian = informativenessCalculator.Calculate(data, new DistanceCalculatorEuclidean());
+        InformativenessCalculationResult informativenessChebyshev = informativenessCalculator.Calculate(data, new DistanceCalculatorChebyshev());
 
-        printTable(informativeness.informativenessList);
+        Console.WriteLine("Расстояние Евклида");
+        printTable(informativenessEuclidian.informativenessList);
+        
+        Console.WriteLine("Расстояние Чебышёва");
+        printTable(informativenessChebyshev.informativenessList);
         //calculator.PlotResults(info);
     }
 

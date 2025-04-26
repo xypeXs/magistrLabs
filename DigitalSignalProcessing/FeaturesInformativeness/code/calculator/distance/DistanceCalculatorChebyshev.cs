@@ -1,6 +1,6 @@
 ﻿namespace calculator.distance
 {
-    public class DistanceCalculatorEuclidean : IDistanceCalculator
+    public class DistanceCalculatorChebyshev : IDistanceCalculator
     {
 
         public double Calculate(double x1, double x2)
@@ -15,14 +15,15 @@
 
         public double Calculate(double[] vector1, double[] vector2)
         {
-            double diffSum = 0;
+            double maxAbsDiff = -1;
             for (int i = 0; i < vector1.Length; i++)
             {
-                var diff = vector1[i] - vector2[i];
-                diffSum += diff * diff;
+                double diff = Math.Abs(vector1[i] - vector2[i]);
+                if (diff > maxAbsDiff)
+                    maxAbsDiff = diff;
             }
 
-            return Math.Sqrt(diffSum);
+            return maxAbsDiff;
         }
     }
 }
