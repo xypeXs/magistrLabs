@@ -1,8 +1,9 @@
 ﻿using calculator.distance;
 using calculator.informativeness;
 using code.data;
+using code.visualizer;
 using loader;
-//using ScottPlot;
+using visualizer;
 
 // Пример использования
 class Program
@@ -22,7 +23,9 @@ class Program
         
         Console.WriteLine("Расстояние Чебышёва");
         printTable(informativenessChebyshev.informativenessList);
-        //calculator.PlotResults(info);
+
+        IInformativenessVisualizer informativenessVisualizer = new InformativenessVisualizerPlot();
+        informativenessVisualizer.visualize(informativenessEuclidian);
     }
 
     // Вывод таблицы
@@ -32,17 +35,4 @@ class Program
         for (int i = 0; i < informativeness.Count; i++)
             Console.WriteLine($"{i + 1}\t{informativeness[i]:F2}");
     }
-
-    //// Построение графика
-    //public void PlotResults(double[] informativeness, string outputPath = "informativeness.png")
-    //{
-    //    var plt = new Plot(800, 400);
-    //    plt.Title("Информативность признаков");
-    //    plt.XLabel("Номер признака");
-    //    plt.YLabel("Коэффициент информативности");
-
-    //    double[] positions = Enumerable.Range(1, informativeness.Length).Select(x => (double)x).ToArray();
-    //    plt.AddBar(informativeness, positions);
-    //    plt.SaveFig(outputPath);
-    //}
 }
