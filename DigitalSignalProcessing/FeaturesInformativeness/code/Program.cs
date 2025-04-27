@@ -1,31 +1,43 @@
 ﻿using calculator.distance;
 using calculator.informativeness;
 using code.data;
-using visualizer;
+using code.visualizer;
 using loader;
+using visualizer;
 
 // Пример использования
-internal class Program
+class Program
 {
     static void Main()
     {
         IDataLoader dataLoader = new DataLoadTxt();
 
         var data = dataLoader.LoadData("./resources/Th3.txt");
-
+        
         IInformativenessCalculator informativenessCalculator = new InformativenessCalculatorDefault();
         InformativenessCalculationResult informativenessEuclidian = informativenessCalculator.Calculate(data, new DistanceCalculatorEuclidean());
         InformativenessCalculationResult informativenessChebyshev = informativenessCalculator.Calculate(data, new DistanceCalculatorChebyshev());
+		InformativenessCalculationResult informativenessCanberra = informativenessCalculator.Calculate(data, new DistanceCalculatorCanberra());
+		InformativenessCalculationResult informativenessMahalanobis = informativenessCalculator.Calculate(data, new DistanceCalculatorMahalanobis(data));
 
-        Console.WriteLine("Расстояние Евклида");
+		Console.WriteLine("Расстояние Евклида");
         printTable(informativenessEuclidian.informativenessList);
-
+        
         Console.WriteLine("Расстояние Чебышёва");
         printTable(informativenessChebyshev.informativenessList);
 
-        IInformativenessVisualizer informativenessVisualizer = new InformativenessVisualizerPlot();
+		Console.WriteLine("Расстояние Канберры");
+		printTable(informativenessCanberra.informativenessList);
+
+		Console.WriteLine("Расстояние Махаланобиса");
+		printTable(informativenessMahalanobis.informativenessList);
+
+		IInformativenessVisualizer informativenessVisualizer = new InformativenessVisualizerPlot();
         informativenessVisualizer.visualize(informativenessEuclidian);
-    }
+		informativenessVisualizer.visualize(informativenessChebyshev);
+		informativenessVisualizer.visualize(informativenessCanberra);
+		informativenessVisualizer.visualize(informativenessMahalanobis);
+	}
 
     // Вывод таблицы
     public static void printTable(List<double> informativeness)
