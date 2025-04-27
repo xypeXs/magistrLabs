@@ -1,18 +1,17 @@
 ﻿using calculator.distance;
 using calculator.informativeness;
 using code.data;
-using code.visualizer;
-using loader;
 using visualizer;
+using loader;
 
 // Пример использования
-class Program
+internal class Program
 {
     static void Main()
     {
         IDataLoader dataLoader = new DataLoadTxt();
 
-        var data = dataLoader.LoadData("./resources/Th.txt");
+        var data = dataLoader.LoadData("./resources/Th3.txt");
 
         IInformativenessCalculator informativenessCalculator = new InformativenessCalculatorDefault();
         InformativenessCalculationResult informativenessEuclidian = informativenessCalculator.Calculate(data, new DistanceCalculatorEuclidean());
@@ -20,7 +19,7 @@ class Program
 
         Console.WriteLine("Расстояние Евклида");
         printTable(informativenessEuclidian.informativenessList);
-        
+
         Console.WriteLine("Расстояние Чебышёва");
         printTable(informativenessChebyshev.informativenessList);
 

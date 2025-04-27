@@ -1,10 +1,7 @@
 ﻿using code.data;
-using visualizer;
-
 using ScottPlot;
-using ScottPlot.Plottables;
 
-namespace code.visualizer
+namespace visualizer
 {
     public class InformativenessVisualizerPlot : IInformativenessVisualizer
     {
