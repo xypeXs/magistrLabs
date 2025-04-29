@@ -1,7 +1,6 @@
 ﻿using calculator.distance;
 using calculator.informativeness;
 using code.data;
-using code.visualizer;
 using loader;
 using visualizer;
 
@@ -33,10 +32,10 @@ class Program
 		printTable(informativenessMahalanobis.informativenessList);
 
 		IInformativenessVisualizer informativenessVisualizer = new InformativenessVisualizerPlot();
-        informativenessVisualizer.visualize(informativenessEuclidian);
-		informativenessVisualizer.visualize(informativenessChebyshev);
-		informativenessVisualizer.visualize(informativenessCanberra);
-		informativenessVisualizer.visualize(informativenessMahalanobis);
+        informativenessVisualizer.visualize(informativenessEuclidian, "euclidian");
+		informativenessVisualizer.visualize(informativenessChebyshev, "chebushev");
+		informativenessVisualizer.visualize(informativenessCanberra, "canberra");
+		informativenessVisualizer.visualize(informativenessMahalanobis, "mahalanobis");
 	}
 
     // Вывод таблицы
