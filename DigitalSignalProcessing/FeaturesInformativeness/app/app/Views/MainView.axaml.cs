@@ -1,6 +1,6 @@
 ﻿using Avalonia.Controls;
 
-namespace app.Views;
+namespace informativeness.Views;
 
 public partial class MainView : UserControl
 {
