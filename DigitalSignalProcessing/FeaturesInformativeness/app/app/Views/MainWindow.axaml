@@ -1,0 +1,26 @@
+<!-- MainWindow.axaml -->
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d"
+        x:Class="app.Views.MainWindow"
+        Title="File Loader"
+        Width="800" Height="600">
+  <DockPanel>
+    <!-- Панель управления -->
+    <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" Margin="5">
+      <ComboBox x:Name="Metric_combo_box" SelectedIndex="0" MaxDropDownHeight="100">
+        <ComboBoxItem>EUCLIDIAN</ComboBoxItem>
+        <ComboBoxItem>CHEBYSHEV</ComboBoxItem>
+        <ComboBoxItem>MAHALANOBIS</ComboBoxItem>
+        <ComboBoxItem>CANBERRA</ComboBoxItem>
+      </ComboBox>
+    </StackPanel>
+    <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" Margin="5">
+      <Button Content="Load File" Click="LoadFile_Click" Margin="5" Padding="10 3"/>
+      <Button Content="Choose output" Click="ChooseOutput_Click" Margin="5" Padding="10 3"/>
+      <Button Content="Proceed" Click="Proceed_Click" Margin="5" Padding="10 3"/>
+    </StackPanel>
+  </DockPanel>
+</Window>
