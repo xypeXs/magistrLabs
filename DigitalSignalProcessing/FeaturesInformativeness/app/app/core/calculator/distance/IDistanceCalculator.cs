@@ -1,7 +1,7 @@
-﻿using core.data;
+﻿using informativeness.app.core.data;
 using System.Collections.Generic;
 
-namespace core.calculator.distance
+namespace informativeness.app.core.calculator.distance
 {
     public interface IDistanceCalculator
     {

@@ -3,11 +3,11 @@ using Avalonia.Controls;
 using Avalonia.Interactivity;
 using Avalonia.Layout;
 using Avalonia.Media;
-using core.calculator.distance;
-using core.calculator.informativeness;
-using core.data;
-using core.loader;
-using core.visualizer;
+using informativeness.app.core.calculator.distance;
+using informativeness.app.core.calculator.informativeness;
+using informativeness.app.core.data;
+using informativeness.app.core.loader;
+using informativeness.app.core.visualizer;
 using ScottPlot;
 using ScottPlot.Avalonia;
 using System;
@@ -16,7 +16,7 @@ using System.IO;
 using System.Linq;
 using System.Reflection.Emit;
 
-namespace informativeness.Views
+namespace informativeness.app.Views
 {
 	public partial class MainWindow : Window
 	{

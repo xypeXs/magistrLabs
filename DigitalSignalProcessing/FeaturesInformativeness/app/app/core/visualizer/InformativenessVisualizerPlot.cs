@@ -1,9 +1,9 @@
-﻿using core.data;
+﻿using informativeness.app.core.data;
 using ScottPlot;
 using System.IO;
 using System.Linq;
 
-namespace core.visualizer
+namespace informativeness.app.core.visualizer
 {
 	public class InformativenessVisualizerPlot : IInformativenessVisualizer
 	{

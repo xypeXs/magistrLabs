@@ -1,6 +1,6 @@
-﻿using core.data;
+﻿using informativeness.app.core.data;
 
-namespace core.loader
+namespace informativeness.app.core.loader
 {
     public interface IDataLoader
     {

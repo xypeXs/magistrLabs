@@ -1,9 +1,9 @@
-﻿using core.constant;
-using core.data;
+﻿using informativeness.app.core.constant;
+using informativeness.app.core.data;
 using System;
 using System.Collections.Generic;
 
-namespace core.calculator.distance
+namespace informativeness.app.core.calculator.distance
 {
 	public class DistanceCalculatorCanberra : IDistanceCalculator
 	{

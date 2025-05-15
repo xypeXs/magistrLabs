@@ -1,8 +1,8 @@
-﻿using core.data;
+﻿using informativeness.app.core.data;
 using System.IO;
 using System.Linq;
 
-namespace core.loader
+namespace informativeness.app.core.loader
 {
     public class DataLoadTxt : IDataLoader
     {

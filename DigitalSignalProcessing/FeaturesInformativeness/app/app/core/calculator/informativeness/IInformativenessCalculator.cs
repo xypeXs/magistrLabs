@@ -1,7 +1,7 @@
-﻿using core.calculator.distance;
-using core.data;
+﻿using informativeness.app.core.calculator.distance;
+using informativeness.app.core.data;
 
-namespace core.calculator.informativeness
+namespace informativeness.app.core.calculator.informativeness
 {
     public interface IInformativenessCalculator
     {

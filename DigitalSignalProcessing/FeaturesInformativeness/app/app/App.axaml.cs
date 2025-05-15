@@ -1,11 +1,11 @@
-﻿using app.ViewModels;
-using app.Views;
+﻿using informativeness.app.ViewModels;
+using informativeness.app.Views;
 
 using Avalonia;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Markup.Xaml;
 
-namespace app;
+namespace informativeness.app;
 
 public partial class App : Application
 {
