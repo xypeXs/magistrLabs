@@ -256,3 +256,13 @@ cython_debug/
 venv/
 cmake-build-debug/
 .ini
+
+# C sharp
+*.csproj
+*.sln
+Debug/
+bin/
+.vs/
+**/obj/*.csproj.*
+project.assets.json
+project.nuget.cache
