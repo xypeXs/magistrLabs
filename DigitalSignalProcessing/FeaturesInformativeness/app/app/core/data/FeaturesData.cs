@@ -1,11 +1,12 @@
 ﻿using System.Collections.Generic;
 
-namespace informativeness.app.core.data
+namespace app.core.data
 {
     public class FeaturesData
     {
         public FeaturesData() { }
 
+        public List<string> nameList { get; set; }
         public List<Image> imageList { get; set; }
 
         public void addImage(Image image)

@@ -1,11 +1,16 @@
-﻿using informativeness.app.core.data;
+﻿using app.core.data;
 using System.IO;
 using System.Linq;
 
-namespace informativeness.app.core.loader
+namespace app.core.loader
 {
     public class DataLoadTxt : IDataLoader
     {
+        public bool isValidLoader(string fileName)
+        {
+            return fileName != null && fileName.EndsWith(".txt");
+        }
+
         public FeaturesData LoadData(string url)
         {
             var data = new FeaturesData();

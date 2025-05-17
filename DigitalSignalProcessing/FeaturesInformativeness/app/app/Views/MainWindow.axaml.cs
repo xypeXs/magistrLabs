@@ -3,11 +3,11 @@ using Avalonia.Controls;
 using Avalonia.Interactivity;
 using Avalonia.Layout;
 using Avalonia.Media;
-using informativeness.app.core.calculator.distance;
-using informativeness.app.core.calculator.informativeness;
-using informativeness.app.core.data;
-using informativeness.app.core.loader;
-using informativeness.app.core.visualizer;
+using app.core.calculator.distance;
+using app.core.calculator.informativeness;
+using app.core.data;
+using app.core.loader;
+using app.core.visualizer;
 using ScottPlot;
 using ScottPlot.Avalonia;
 using System;
@@ -15,8 +15,9 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection.Emit;
+using DynamicData;
 
-namespace informativeness.app.Views
+namespace app.Views
 {
 	public partial class MainWindow : Window
 	{
@@ -28,6 +29,12 @@ namespace informativeness.app.Views
 			new DistanceCalculatorChebyshev(),
 			new DistanceCalculatorMahalanobis(),
 			new DistanceCalculatorCanberra()
+		};
+
+		private readonly List<IDataLoader> dataLoaders = new()
+		{
+			new DataLoadCsv(),
+			new DataLoadTxt(),
 		};
 
 		public MainWindow()
@@ -143,7 +150,14 @@ namespace informativeness.app.Views
 
 				try
 				{
-					File.WriteAllLines(dataFilePath, ys.Select(y => y.ToString("F2")));
+					List<string> informativesnssResultToFileData = new List<string>();
+					for (int i = 0; i < ys.Length; i++)
+					{
+						string featureName = (data.nameList == null || data.nameList.Count <= i) ? "" : data.nameList[i];
+						string featureValue = ys[i].ToString("F2");
+						informativesnssResultToFileData.Add(featureName + " " + featureValue);
+					}
+					File.WriteAllLines(dataFilePath, informativesnssResultToFileData);
 				} catch (Exception ex)
 				{
 					var errorAlert = new Window
@@ -191,6 +205,8 @@ namespace informativeness.app.Views
 		}
 
 
-		private IDataLoader GetDataLoader(string filePath) => new DataLoadTxt();
+		private IDataLoader GetDataLoader(string filePath) {
+			return dataLoaders.Where(loader => loader.isValidLoader(filePath)).First();
+		}
 	}
 }

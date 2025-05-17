@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 
-using informativeness.app.core.constant;
-using informativeness.app.core.data;
+using app.core.constant;
+using app.core.data;
 
-namespace informativeness.app.core.calculator.distance
+namespace app.core.calculator.distance
 {
     public class DistanceCalculatorChebyshev : IDistanceCalculator
     {

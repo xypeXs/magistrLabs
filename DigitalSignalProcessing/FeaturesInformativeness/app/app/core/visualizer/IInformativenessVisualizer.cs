@@ -1,6 +1,6 @@
-﻿using informativeness.app.core.data;
+﻿using app.core.data;
 
-namespace informativeness.app.core.visualizer
+namespace app.core.visualizer
 {
     public interface IInformativenessVisualizer
     {

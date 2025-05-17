@@ -1,14 +1,14 @@
-﻿using informativeness.app.core.calculator.distance;
-using informativeness.app.core.data;
+﻿using app.core.calculator.distance;
+using app.core.data;
 using MathNet.Numerics.LinearAlgebra;
 using MathNet.Numerics.LinearAlgebra.Double; // DenseMatrix, DenseVector
 using System;
 using System.Collections.Generic;
 using System.Linq;
 
-using informativeness.app.core.constant;
+using app.core.constant;
 
-namespace informativeness.app.core.calculator.distance
+namespace app.core.calculator.distance
 {
 
     public class DistanceCalculatorMahalanobis : IDistanceCalculator

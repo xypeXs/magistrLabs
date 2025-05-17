@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace informativeness.app.core.constant
+namespace app.core.constant
 {
     public class Constant
     {

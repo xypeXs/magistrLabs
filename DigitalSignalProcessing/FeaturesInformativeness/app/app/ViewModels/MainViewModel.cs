@@ -1,4 +1,4 @@
-﻿namespace informativeness.app.ViewModels;
+﻿namespace app.ViewModels;
 
 public class MainViewModel : ViewModelBase
 {

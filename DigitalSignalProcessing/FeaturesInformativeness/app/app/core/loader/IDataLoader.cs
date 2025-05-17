@@ -1,9 +1,11 @@
-﻿using informativeness.app.core.data;
+﻿using app.core.data;
+using System;
 
-namespace informativeness.app.core.loader
+namespace app.core.loader
 {
     public interface IDataLoader
     {
+        public bool isValidLoader(string fileName);
         public FeaturesData LoadData(string url);
     }
 }

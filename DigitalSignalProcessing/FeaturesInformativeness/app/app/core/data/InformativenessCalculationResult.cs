@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace informativeness.app.core.data
+namespace app.core.data
 {
     public class InformativenessCalculationResult
     {
