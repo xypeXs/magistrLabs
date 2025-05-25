@@ -1,4 +1,6 @@
 ﻿using app.core.data;
+using app.core.utils;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 
@@ -22,7 +24,19 @@ namespace app.core.loader
                 var features = parts.Skip(1).Select(double.Parse).ToList();
                 data.addImage(new Image { classIndex = classLabel, featureList = features });
             }
+            data.nameList = GenerateFeatureNames(data.imageList[0].featureList.Count + 1);
             return data;
+        }
+
+        protected List<string> GenerateFeatureNames(int count)
+        {
+            List<string> featureNames = new List<string>(count);
+            for (int i = 0; i < count; i++)
+            {
+                featureNames.Add("Feature #" + i);
+            }
+
+            return featureNames;
         }
     }
 }

@@ -19,194 +19,149 @@ using DynamicData;
 
 namespace app.Views
 {
-	public partial class MainWindow : Window
-	{
-		private string inputPath;
-		private string outputPath;
-		private readonly List<IDistanceCalculator> calculators = new()
-		{
-			new DistanceCalculatorEuclidean(),
-			new DistanceCalculatorChebyshev(),
-			new DistanceCalculatorMahalanobis(),
-			new DistanceCalculatorCanberra()
-		};
+    public partial class MainWindow : Window
+    {
+        private string inputPath;
+        private string outputPath;
+        private readonly List<IDistanceCalculator> calculators = new()
+        {
+            new DistanceCalculatorEuclidean(),
+            new DistanceCalculatorChebyshev(),
+            new DistanceCalculatorMahalanobis(),
+            new DistanceCalculatorCanberra()
+        };
 
-		private readonly List<IDataLoader> dataLoaders = new()
-		{
-			new DataLoadCsv(),
-			new DataLoadTxt(),
-		};
+        private readonly List<IDataLoader> dataLoaders = new()
+        {
+            new DataLoadCsv(),
+            new DataLoadTxt(),
+        };
 
-		public MainWindow()
-		{
-			InitializeComponent();
-		}
+        private readonly List<IInformativenessVisualizer> informativenessVisualizers = new()
+        {
+            new InformativenessVisualizerPlot(),
+            new InformativenessVisualizerTxt()
+        };
 
-		private async void LoadFile_Click(object sender, RoutedEventArgs e)
-		{
-			var dlg = new OpenFileDialog
-			{
-				Filters = { new FileDialogFilter { Name = "All Files", Extensions = { "*" } } },
-				AllowMultiple = false
-			};
-			var res = await dlg.ShowAsync(this);
-			if (res?.Length > 0)
-			{
-				inputPath = res[0];
-				InputPathLabel.Text = inputPath;
-			}
-		}
+        public MainWindow()
+        {
+            InitializeComponent();
+        }
 
-		private async void ChooseOutput_Click(object sender, RoutedEventArgs e)
-		{
-			var dlg = new OpenFolderDialog();
-			var res = await dlg.ShowAsync(this);
-			if (!string.IsNullOrEmpty(res))
-			{
-				outputPath = res;
-				OutputPathLabel.Text = outputPath;
-			}
-		}
+        private async void LoadFile_Click(object sender, RoutedEventArgs e)
+        {
+            var dlg = new OpenFileDialog
+            {
+                Filters = { new FileDialogFilter { Name = "All Files", Extensions = { "*" } } },
+                AllowMultiple = false
+            };
+            var res = await dlg.ShowAsync(this);
+            if (res?.Length > 0)
+            {
+                inputPath = res[0];
+                InputPathLabel.Text = inputPath;
+            }
+        }
 
-		private async void Proceed_Click(object sender, RoutedEventArgs e)
-		{
-			if (string.IsNullOrEmpty(inputPath) || string.IsNullOrEmpty(outputPath))
-			{
-				var alert = new Window
-				{
-					Title = "Внимание",
-					Width = 400,
-					Height = 150,
-					WindowStartupLocation = WindowStartupLocation.CenterOwner
-				};
-				var panel = new StackPanel
-				{
-					Margin = new Thickness(10),
-					Spacing = 10
-				};
-				panel.Children.Add(new TextBlock
-				{
-					Text = "Пожалуйста, выберите входной файл и выходную папку.",
-					TextWrapping = TextWrapping.Wrap
-				});
-				var okButton = new Button
-				{
-					Content = "OK",
-					HorizontalAlignment = Avalonia.Layout.HorizontalAlignment.Center,
-					Width = 80,
-					Margin = new Thickness(0, 10, 0, 0)
-				};
-				okButton.Click += (_, _) => alert.Close();
-				panel.Children.Add(okButton);
-				alert.Content = panel;
-				await alert.ShowDialog(this);
-				return;
-			}
+        private async void ChooseOutput_Click(object sender, RoutedEventArgs e)
+        {
+            var dlg = new OpenFolderDialog();
+            var res = await dlg.ShowAsync(this);
+            if (!string.IsNullOrEmpty(res))
+            {
+                outputPath = res;
+                OutputPathLabel.Text = outputPath;
+            }
+        }
 
-			int idx = MetricComboBox.SelectedIndex;
-			if (idx < 0 || idx >= calculators.Count)
-				return;
+        private async void Proceed_Click(object sender, RoutedEventArgs e)
+        {
+            if (string.IsNullOrEmpty(inputPath) || string.IsNullOrEmpty(outputPath))
+            {
+                var alert = new Window
+                {
+                    Title = "Внимание",
+                    Width = 400,
+                    Height = 150,
+                    WindowStartupLocation = WindowStartupLocation.CenterOwner
+                };
+                var panel = new StackPanel
+                {
+                    Margin = new Thickness(10),
+                    Spacing = 10
+                };
+                panel.Children.Add(new TextBlock
+                {
+                    Text = "Пожалуйста, выберите входной файл и выходную папку.",
+                    TextWrapping = TextWrapping.Wrap
+                });
+                var okButton = new Button
+                {
+                    Content = "OK",
+                    HorizontalAlignment = Avalonia.Layout.HorizontalAlignment.Center,
+                    Width = 80,
+                    Margin = new Thickness(0, 10, 0, 0)
+                };
+                okButton.Click += (_, _) => alert.Close();
+                panel.Children.Add(okButton);
+                alert.Content = panel;
+                await alert.ShowDialog(this);
+                return;
+            }
 
-			var calculator = calculators[idx];
-			var data = GetDataLoader(inputPath).LoadData(inputPath);
-			calculator.initialize(data);
+            int idx = MetricComboBox.SelectedIndex;
+            if (idx < 0 || idx >= calculators.Count)
+                return;
 
-			var infCalc = new InformativenessCalculatorDefault();
-			var result = infCalc.Calculate(data, calculator);
+            var calculator = calculators[idx];
+            var data = GetDataLoader(inputPath).LoadData(inputPath);
+            calculator.initialize(data);
 
-			double[] xs = Enumerable.Range(1, result.informativenessList.Count)
-									.Select(i => (double)i).ToArray();
-			double[] ys = result.informativenessList.ToArray();
+            var infCalc = new InformativenessCalculatorDefault();
+            var result = infCalc.Calculate(data, calculator);
 
-			var plotCtrl = this.FindControl<AvaPlot>("PlotControl");
-			if (plotCtrl != null)
-			{
-				plotCtrl.Plot.Clear();
-				plotCtrl.Plot.Title("Информативность признаков");
-				plotCtrl.Plot.XLabel("Номер признака");
-				plotCtrl.Plot.YLabel("Коэффициент информативности");
-
-				plotCtrl.Plot.Add.Scatter(xs, ys);
-
-				double xMax = xs.Max();
-				double yMax = ys.Max();
-				double xMin = xs.Min();
-				double yMin = ys.Min();
-
-				plotCtrl.Plot.Axes.SetLimits(xMin - 2, xMax + 2, yMin - 2, yMax + 2);
-
-				plotCtrl.Refresh();
-			}
-
-			if (plotCtrl != null)
-			{
-				string metricName = calculator.GetType();
-				string fileName = $"informativeness_{metricName}.png";
-				string fullPath = Path.Combine(outputPath, fileName);
-				plotCtrl.Plot.SavePng(fullPath, 1920, 1080);
-
-				string dataFileName = $"informativeness_{metricName}.txt";
-				string dataFilePath = Path.Combine(outputPath, dataFileName);
-
-				try
-				{
-					List<string> informativesnssResultToFileData = new List<string>();
-					for (int i = 0; i < ys.Length; i++)
-					{
-						string featureName = (data.nameList == null || data.nameList.Count <= i) ? "" : data.nameList[i];
-						string featureValue = ys[i].ToString("F2");
-						informativesnssResultToFileData.Add(featureName + " " + featureValue);
-					}
-					File.WriteAllLines(dataFilePath, informativesnssResultToFileData);
-				} catch (Exception ex)
-				{
-					var errorAlert = new Window
-					{
-						Title = "Ошибка",
-						Width = 400,
-						Height = 150,
-						WindowStartupLocation = WindowStartupLocation.CenterOwner
-					};
-					var errorPanel = new StackPanel
-					{
-						Margin = new Thickness(10),
-						Spacing = 10
-					};
-					errorPanel.Children.Add(new TextBlock
-					{
-						Text = $"Ошибка при сохранении данных: {ex.Message}",
-						TextWrapping = TextWrapping.Wrap
-					});
-					var okButton = new Button
-					{
-						Content = "OK",
-						HorizontalAlignment = Avalonia.Layout.HorizontalAlignment.Center,
-						Width = 80,
-						Margin = new Thickness(0, 10, 0, 0)
-					};
-					okButton.Click += (_, _) => errorAlert.Close();
-					errorPanel.Children.Add(okButton);
-					errorAlert.Content = errorPanel;
-					await errorAlert.ShowDialog(this);
-				}
-
-				var infoLabel = this.FindControl<TextBlock>("InfoLabel");
-				if (infoLabel != null)
-					infoLabel.Text = $"Image saved at: {fullPath}";
-
-				var savedLabel = this.FindControl<TextBlock>("InformativenessSavedLabel");
-				if (savedLabel != null)
-				{
-					savedLabel.Text = $"Informativeness values saved in: {dataFilePath}";
-					savedLabel.IsVisible = true;
-				}
-
-			}
-		}
+            try
+            {
+                foreach (IInformativenessVisualizer informativenessVisualizer in informativenessVisualizers)
+                    informativenessVisualizer.visualize(result, this, outputPath);
+            }
+            catch (Exception ex)
+            {
+                var errorAlert = new Window
+                {
+                    Title = "Ошибка",
+                    Width = 400,
+                    Height = 150,
+                    WindowStartupLocation = WindowStartupLocation.CenterOwner
+                };
+                var errorPanel = new StackPanel
+                {
+                    Margin = new Thickness(10),
+                    Spacing = 10
+                };
+                errorPanel.Children.Add(new TextBlock
+                {
+                    Text = $"Ошибка при сохранении данных: {ex.Message}",
+                    TextWrapping = TextWrapping.Wrap
+                });
+                var okButton = new Button
+                {
+                    Content = "OK",
+                    HorizontalAlignment = Avalonia.Layout.HorizontalAlignment.Center,
+                    Width = 80,
+                    Margin = new Thickness(0, 10, 0, 0)
+                };
+                okButton.Click += (_, _) => errorAlert.Close();
+                errorPanel.Children.Add(okButton);
+                errorAlert.Content = errorPanel;
+                await errorAlert.ShowDialog(this);
+            }
+        }
 
 
-		private IDataLoader GetDataLoader(string filePath) {
-			return dataLoaders.Where(loader => loader.isValidLoader(filePath)).First();
-		}
-	}
+        private IDataLoader GetDataLoader(string filePath)
+        {
+            return dataLoaders.Where(loader => loader.isValidLoader(filePath)).First();
+        }
+    }
 }

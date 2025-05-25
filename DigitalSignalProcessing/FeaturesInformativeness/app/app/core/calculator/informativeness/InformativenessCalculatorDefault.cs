@@ -16,15 +16,23 @@ namespace app.core.calculator.informativeness
             double[,] intraClassDistancesByFeature = CalculateIntraClassDistances(data, distanceCalculator);
             double[,,] interClassDistancesByFeature = CalculateInterClassDistances(data, distanceCalculator);
 
+            InformativenessCalculationResult informativenessCalculationResult;
             if (numclasses == 2)
             {
-                return calculateTwoClassesInformativeness(intraClassDistancesByFeature, interClassDistancesByFeature, numfeatures, numclasses);
+                informativenessCalculationResult = calculateTwoClassesInformativeness(intraClassDistancesByFeature, interClassDistancesByFeature, numfeatures, numclasses);
+            }
+            else
+            {
+                informativenessCalculationResult = calculateManyClassesInformativeness(intraClassDistancesByFeature, interClassDistancesByFeature, numfeatures, numclasses);
             }
 
-            return calculateManyClassesInformativeness(intraClassDistancesByFeature, interClassDistancesByFeature, numfeatures, numclasses);
+            informativenessCalculationResult.metricName = distanceCalculator.GetType();
+            informativenessCalculationResult.featureData = data;
+
+            return informativenessCalculationResult;
         }
 
-        
+
         // Расчёт для двух классов
         private InformativenessCalculationResult calculateTwoClassesInformativeness(double[,] intraClassDistancesByFeature, double[,,] interClassDistancesByFeature, int numfeatures, int numclasses)
         {
