@@ -1,5 +1,6 @@
 ﻿using app.core.data;
 using app.core.utils;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -20,7 +21,7 @@ namespace app.core.loader
             foreach (var line in lines)
             {
                 string[] parts = line.Split('\t').Select(x => x.Replace(".", ",")).Where(x => x != "").ToArray();
-                var classLabel = int.Parse(parts[0]);
+                int classLabel = Convert.ToInt32(Math.Floor(double.Parse(parts[0])));
                 var features = parts.Skip(1).Select(double.Parse).ToList();
                 data.addImage(new Image { classIndex = classLabel, featureList = features });
             }
