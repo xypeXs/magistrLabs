@@ -1,12 +1,15 @@
 package edu.rsatu.encryption;
 
 import edu.rsatu.encryption.component.JTextFieldLimit;
+import edu.rsatu.encryption.dto.DecodeResult;
+import edu.rsatu.encryption.utils.NumberUtils;
 
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.List;
 
 public class MainWindow {
     private JButton buttonInput;
@@ -72,10 +75,50 @@ public class MainWindow {
         buttonEncode.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                unsetBlockingError();
                 comboBoxRemainders.removeAllItems();
-                cyclicEncoder.getRemainderList((String) comboBoxFunctionGx.getSelectedItem()).forEach(remainder -> comboBoxRemainders.addItem(remainder));
+                List<Integer> remainderList = cyclicEncoder.getRemainderList(getGx());
+                remainderList.forEach(remainder -> comboBoxRemainders.addItem(NumberUtils.getBinaryString(remainder, cyclicEncoder.getM())));
+                textFieldEncodedSequence.setText("");
+                if (remainderList.size() < cyclicEncoder.getN()) {
+                    setBlockingError();
+                    return;
+                }
+
+                textFieldEncodedSequence.setText(NumberUtils.getBinaryString(cyclicEncoder.encode(getGx()), cyclicEncoder.getN()));
             }
         });
+        buttonDecode.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                DecodeResult decodeResult = cyclicEncoder.decode(NumberUtils.getBinaryNumber(textFieldEncodedSequenceAck.getText()), getGx());
+                textFieldS.setText(NumberUtils.getBinaryString(decodeResult.getS(), cyclicEncoder.getM()));
+                textFieldEps.setText(NumberUtils.getBinaryString(decodeResult.getEps(), cyclicEncoder.getN()));
+                textFieldR.setText(String.valueOf(decodeResult.getR()));
+                textFieldN.setText(String.valueOf(decodeResult.getN()));
+
+                if (decodeResult.getR() > 1) {
+                    textFieldResult.setText("Повторная передача");
+                } else {
+                    textFieldResult.setText(NumberUtils.getBinaryString(decodeResult.getDecodedSeq(), cyclicEncoder.getK()));
+                }
+            }
+        });
+    }
+
+    protected void unsetBlockingError() {
+        comboBoxFunctionGx.setForeground(new Color(35, 37, 48, 255));
+        comboBoxFunctionGx.setBackground(new Color(255, 255, 255, 255));
+        buttonDecode.setEnabled(true);
+    }
+
+    protected void setBlockingError() {
+        comboBoxFunctionGx.setBackground(Color.RED);
+        buttonDecode.setEnabled(false);
+    }
+
+    protected String getGx() {
+        return (String) comboBoxFunctionGx.getSelectedItem();
     }
 
     /**
@@ -88,11 +131,10 @@ public class MainWindow {
     private void $$$setupUI$$$() {
         jPanel = new JPanel();
         jPanel.setLayout(new com.intellij.uiDesigner.core.GridLayoutManager(14, 9, new Insets(0, 0, 0, 0), -1, -1));
-        jPanel.setBorder(BorderFactory.createTitledBorder(null, "MainWindow", TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION, null, null));
         final com.intellij.uiDesigner.core.Spacer spacer1 = new com.intellij.uiDesigner.core.Spacer();
-        jPanel.add(spacer1, new com.intellij.uiDesigner.core.GridConstraints(13, 1, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_CENTER, com.intellij.uiDesigner.core.GridConstraints.FILL_VERTICAL, 1, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_WANT_GROW, null, null, null, 0, false));
+        jPanel.add(spacer1, new com.intellij.uiDesigner.core.GridConstraints(13, 1, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_CENTER, com.intellij.uiDesigner.core.GridConstraints.FILL_VERTICAL, 1, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_SHRINK | com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_WANT_GROW, new Dimension(10, 10), null, null, 0, false));
         final com.intellij.uiDesigner.core.Spacer spacer2 = new com.intellij.uiDesigner.core.Spacer();
-        jPanel.add(spacer2, new com.intellij.uiDesigner.core.GridConstraints(0, 1, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_CENTER, com.intellij.uiDesigner.core.GridConstraints.FILL_VERTICAL, 1, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_WANT_GROW, null, null, null, 0, false));
+        jPanel.add(spacer2, new com.intellij.uiDesigner.core.GridConstraints(0, 1, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_CENTER, com.intellij.uiDesigner.core.GridConstraints.FILL_VERTICAL, 1, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_SHRINK | com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_WANT_GROW, new Dimension(10, 10), null, null, 0, false));
         buttonInput = new JButton();
         buttonInput.setText("ВВОД");
         jPanel.add(buttonInput, new com.intellij.uiDesigner.core.GridConstraints(2, 7, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_CENTER, com.intellij.uiDesigner.core.GridConstraints.FILL_BOTH, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_SHRINK | com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_GROW, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_SHRINK | com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_WANT_GROW, null, null, null, 0, false));
@@ -139,11 +181,11 @@ public class MainWindow {
         label1.setText("Информационная последовательность");
         jPanel.add(label1, new com.intellij.uiDesigner.core.GridConstraints(1, 1, 1, 5, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_CENTER, com.intellij.uiDesigner.core.GridConstraints.FILL_NONE, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         final com.intellij.uiDesigner.core.Spacer spacer4 = new com.intellij.uiDesigner.core.Spacer();
-        jPanel.add(spacer4, new com.intellij.uiDesigner.core.GridConstraints(2, 8, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_CENTER, com.intellij.uiDesigner.core.GridConstraints.FILL_HORIZONTAL, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_WANT_GROW, 1, null, null, null, 0, false));
+        jPanel.add(spacer4, new com.intellij.uiDesigner.core.GridConstraints(2, 8, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_CENTER, com.intellij.uiDesigner.core.GridConstraints.FILL_HORIZONTAL, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_SHRINK | com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_WANT_GROW, 1, new Dimension(10, 10), null, null, 0, false));
         final com.intellij.uiDesigner.core.Spacer spacer5 = new com.intellij.uiDesigner.core.Spacer();
         jPanel.add(spacer5, new com.intellij.uiDesigner.core.GridConstraints(2, 6, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_CENTER, com.intellij.uiDesigner.core.GridConstraints.FILL_HORIZONTAL, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_WANT_GROW, 1, null, null, null, 0, false));
         final com.intellij.uiDesigner.core.Spacer spacer6 = new com.intellij.uiDesigner.core.Spacer();
-        jPanel.add(spacer6, new com.intellij.uiDesigner.core.GridConstraints(2, 0, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_CENTER, com.intellij.uiDesigner.core.GridConstraints.FILL_HORIZONTAL, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_WANT_GROW, 1, null, null, null, 0, false));
+        jPanel.add(spacer6, new com.intellij.uiDesigner.core.GridConstraints(2, 0, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_CENTER, com.intellij.uiDesigner.core.GridConstraints.FILL_HORIZONTAL, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_SHRINK | com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_WANT_GROW, 1, new Dimension(10, 10), null, null, 0, false));
         final JLabel label2 = new JLabel();
         label2.setText("k");
         jPanel.add(label2, new com.intellij.uiDesigner.core.GridConstraints(3, 1, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_CENTER, com.intellij.uiDesigner.core.GridConstraints.FILL_NONE, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));

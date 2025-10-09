@@ -1,4 +1,4 @@
-package edu.rsatu.encryption.utils;
+package edu.rsatu.encryption.dto;
 
 public class Pair<K, V> {
 

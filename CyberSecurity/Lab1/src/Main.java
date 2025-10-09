@@ -5,7 +5,7 @@ import javax.swing.*;
 public class Main {
 
     public static void main(String[] args) {
-        JFrame jFrame = getDefaultJFrame("Лаба");
+        JFrame jFrame = getDefaultJFrame("Двоичный циклический код");
         new MainWindow(jFrame);
     }
 
