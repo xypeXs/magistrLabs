@@ -81,14 +81,25 @@ public class CyclicEncoder {
         int parityBit = NumberUtils.getXorOfAllBits(sequenceToDecode);
         int seqToDecode = sequenceToDecode >> 1;
         int gxBin = getGxValue(gx);
-        if (NumberUtils.modPolynomial(seqToDecode, gxBin) == 0 && parityBit == 0) {
-            return new DecodeResult(0, 0, 0, 0, seqToDecode >> getM());
+        if (NumberUtils.modPolynomial(seqToDecode, gxBin) == 0) {
+            if (parityBit == 0) {
+                return new DecodeResult(0, 0, 0, 0, seqToDecode >> getM());
+            }
+
+            if (parityBit == 1) {
+                return new DecodeResult(0, 0, 1, -1, seqToDecode >> getM());
+            }
         }
 
         List<Integer> H = getH(gx);
         int s = NumberUtils.getNumberFromBinaryList(getHT(gx).stream().map(hi -> NumberUtils.bitByBitAndThenXor(seqToDecode, hi)).toList());
         int hPos = H.indexOf(s);
         int n = 0, eps = 0, r = 0, decodedSeq = 0;
+        if (hPos != -1 && parityBit == 0) {
+            eps = 1 << (getN() - hPos - 1);
+            return new DecodeResult(s, eps, 2, 0, seqToDecode >> getM());
+        }
+
         if (hPos != -1 && parityBit == 1) {
             n = getN() - hPos - 1;
             eps = 1 << n;

@@ -9,6 +9,8 @@ import javax.swing.border.TitledBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.util.List;
 
 public class MainWindow {
@@ -55,6 +57,17 @@ public class MainWindow {
     }
 
     protected void addListeners() {
+        textFieldEncodedSequenceAck.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyPressed(KeyEvent e) {
+                super.keyPressed(e);
+                textFieldS.setText("");
+                textFieldEps.setText("");
+                textFieldN.setText("");
+                textFieldR.setText("");
+                textFieldResult.setText("");
+            }
+        });
         buttonExit.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -97,8 +110,11 @@ public class MainWindow {
                 textFieldR.setText(String.valueOf(decodeResult.getR()));
                 textFieldN.setText(String.valueOf(decodeResult.getN()));
 
-                if (decodeResult.getR() > 1) {
+                if (decodeResult.getR() == 0) {
+                    textFieldN.setText("");
+                } if (decodeResult.getR() > 1) {
                     textFieldResult.setText("Повторная передача");
+                    textFieldN.setText("");
                 } else {
                     textFieldResult.setText(NumberUtils.getBinaryString(decodeResult.getDecodedSeq(), cyclicEncoder.getK()));
                 }
