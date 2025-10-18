@@ -1,0 +1,46 @@
+@startuml
+!define RECTANGLE class
+!define COMPONENT component
+
+skinparam BackgroundColor #FFFFFF
+skinparam ClassBackgroundColor #F0F0F0
+skinparam ClassBorderColor #333333
+skinparam ArrowColor #333333
+
+title Контекстная диаграмма: Платформа онлайн-шахмат
+
+package "Платформа онлайн-шахмат" {
+  [Веб-интерфейс] as WEB
+  [Мобильные приложения] as MOBILE
+  [Игровой сервер] as GAME_SERVER
+  [База данных] as DB
+  [Сервис платежей] as PAYMENT
+  [Сервис уведомлений] as NOTIFICATION
+}
+
+WEB -right-> GAME_SERVER : HTTP/WebSocket
+MOBILE -left-> GAME_SERVER : API/WebSocket
+GAME_SERVER --> DB : Хранение данных
+GAME_SERVER --> PAYMENT : Обработка платежей
+GAME_SERVER --> NOTIFICATION : Отправка уведомлений
+
+[Игрок] as PLAYER
+[Тренер/Шахматная школа] as TRAINER
+[Администратор] as ADMIN
+[Модератор] as MODERATOR
+[Платежная система] as PAYMENT_SYSTEM
+[Сервис email] as EMAIL
+[Push-сервис] as PUSH
+[Сервис СМС] as СМС
+
+PLAYER --> WEB : Игра в шахматы\nПросмотр статистики\nРешение задач
+PLAYER --> MOBILE : Мобильная игра\nУведомления
+TRAINER --> WEB : Организация турниров\nОтслеживание прогресса
+ADMIN --> WEB : Управление пользователями\nМониторинг системы
+MODERATOR --> WEB : Модерация контента\nРазрешение споров
+
+PAYMENT --> PAYMENT_SYSTEM : МИР\nСБП
+NOTIFICATION --> EMAIL : Email уведомления
+NOTIFICATION --> PUSH : Push уведомления
+NOTIFICATION --> СМС : СМС уведомления
+@enduml
