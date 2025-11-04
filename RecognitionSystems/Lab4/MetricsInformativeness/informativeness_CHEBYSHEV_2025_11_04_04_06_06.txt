@@ -1,0 +1,11 @@
+LocalEapprxmaxLvl      0,00
+LocalEapprxmaxVal      0,69
+LocalEdetmaxLvl        0,43
+LocalEdetmaxVal        0,79
+GlobalEapprxmaxLvl     0,00
+GlobalEapprxmaxVal     0,44
+GlobalEdetmaxLvl       0,00
+GlobalEdetmaxVal       0,44
+standard deviation     0,67
+kurtosis               0,42
+skewness               0,45
