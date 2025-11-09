@@ -7,9 +7,18 @@ import statsmodels.api as sm
 
 path = "LabDictors/2TXT/DPavel_YesNo.txt"
 
+bad_signal_median = 128
+
+def normalize(data):
+    for i in range(len(data)):
+        if abs(data[i]) > 1:
+            data[i] -= bad_signal_median
+
+
 with open(path) as file:
     data = [float(line.strip().replace(',', '.')) for line in file]
     data = data + data[::-1]
+    normalize(data)
 
 print(f'length of signal: {len(data)}')
 
