@@ -9,3 +9,5 @@ GlobalEdetmaxVal       0,44
 standard deviation     0,67
 kurtosis               0,42
 skewness               0,45
+ACF_max_lvl            0,00
+ACF_max_val            1,06

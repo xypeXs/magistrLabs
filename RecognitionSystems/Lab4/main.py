@@ -3,6 +3,7 @@ import math
 import matplotlib.pyplot as plt
 import numpy as np
 import scipy.stats as stats
+import statsmodels.api as sm
 
 path = "LabDictors/D2_4.TXT"
 
@@ -149,6 +150,18 @@ def getMaxLevelAndValueOneDim(eArr):
                 maxValue = eArr[l]
     return f'{maxL}, {maxValue:.2f}'
 
+def getMaxLevelAndValueACF(data):
+    acf_arr = sm.tsa.acf(data, nlags=2)
+    max_val = -100
+    max_level = -1
+    for i in range (1, len(acf_arr)):
+        if acf_arr[i] > max_val:
+            max_val = acf_arr[i]
+            max_level = i
+
+    return max_level, max_val
+
+
 waveletApproximations, waveletDetails = wavelet()
 
 local_energy_approximations = computeEnergyDensity(waveletApproximations)
@@ -160,7 +173,8 @@ global_spectrum_energy_details = computeGlobalEnergySpectrum(local_energy_detail
 # print(f'Kurtosis: {stats.kurtosis(data):.5f}')
 # print(f'Skewness: {stats.skew(data):.5f}')
 
-print(getMaxLevelAndValueTwoDim(local_energy_approximations) + ', ' + getMaxLevelAndValueTwoDim(local_energy_details) + ', ' + getMaxLevelAndValueOneDim(global_spectrum_energy_approximations) + ', ' + getMaxLevelAndValueOneDim(global_spectrum_energy_details)
-      + ', ' + f'{np.std(data):.5f}, {stats.kurtosis(data):.5f}, {stats.skew(data):.5f}')
-
 # СКО, эксцесс, асимметрия
+acf_max_level, acf_max_val = getMaxLevelAndValueACF(data)
+
+print(getMaxLevelAndValueTwoDim(local_energy_approximations) + ', ' + getMaxLevelAndValueTwoDim(local_energy_details) + ', ' + getMaxLevelAndValueOneDim(global_spectrum_energy_approximations) + ', ' + getMaxLevelAndValueOneDim(global_spectrum_energy_details)
+      + ', ' + f'{np.std(data):.5f}, {stats.kurtosis(data):.5f}, {stats.skew(data):.5f}', f'{acf_max_level:.5f}, {acf_max_val:.5f}')
