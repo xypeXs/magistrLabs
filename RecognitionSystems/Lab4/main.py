@@ -5,10 +5,11 @@ import numpy as np
 import scipy.stats as stats
 import statsmodels.api as sm
 
-path = "LabDictors/D2_4.TXT"
+path = "LabDictors/2TXT/DPavel_YesNo.txt"
 
 with open(path) as file:
     data = [float(line.strip().replace(',', '.')) for line in file]
+    data = data + data[::-1]
 
 print(f'length of signal: {len(data)}')
 
@@ -177,4 +178,4 @@ global_spectrum_energy_details = computeGlobalEnergySpectrum(local_energy_detail
 acf_max_level, acf_max_val = getMaxLevelAndValueACF(data)
 
 print(getMaxLevelAndValueTwoDim(local_energy_approximations) + ', ' + getMaxLevelAndValueTwoDim(local_energy_details) + ', ' + getMaxLevelAndValueOneDim(global_spectrum_energy_approximations) + ', ' + getMaxLevelAndValueOneDim(global_spectrum_energy_details)
-      + ', ' + f'{np.std(data):.5f}, {stats.kurtosis(data):.5f}, {stats.skew(data):.5f}', f'{acf_max_level:.5f}, {acf_max_val:.5f}')
+      + ', ' + f'{np.std(data):.5f}, {stats.kurtosis(data):.5f}, {stats.skew(data):.5f}, ', f'{acf_max_level:.5f}, {acf_max_val:.5f}')
