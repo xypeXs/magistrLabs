@@ -1,0 +1,1 @@
+Lvl2. STD approx	Lvl2. Details. Horizontal. Energy	Lvl2. Details. Horizontal. Std 	Lvl2. Details. Vertical. Energy	Lvl2. Details. Vertical. Std	Lvl2. Details. Diagonal. Energy	Lvl2. Details. Diagonal. Std	Lvl2. Entropy. Approx	Lvl2. Entropy. Horizontal	Lvl2. Entropy. Vertical	Lvl2. Entropy. Diagonal
