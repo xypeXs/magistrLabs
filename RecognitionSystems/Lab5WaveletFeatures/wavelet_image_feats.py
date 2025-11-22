@@ -3,11 +3,29 @@ import matplotlib.pyplot as plt
 import numpy as np
 from PIL import Image
 
+def to_binary(image):
+    threshold = 128
+    n = len(image)
+    m = len(image[0])
+    image_bin = np.zeros((n, m))
+    sum = 0
+    for i in range (0, n):
+        for j in range (0, m):
+            sum += image[i][j]
+
+    threshold_avg = sum / (n * m)
+
+    for i in range (0, n):
+        for j in range (0, m):
+            image_bin[i, j] = 0 if image[i, j] < threshold_avg else 255
+
+    return image_bin
+
 
 def load_image(image_path):
     img = Image.open(image_path).convert('L')
     img_data = np.array(img, dtype=float)
-    return img_data
+    return to_binary(img_data)
 
 
 def wavelet_2d(image):
@@ -212,6 +230,47 @@ def plot_corrected_analysis(energy_stats, entropy_stats):
     plt.show()
 
 
+def compute_lim(detail_levels):
+    """
+    Computes the Local Intermittency Measure (LIM) as the maximum local intermittency
+    for each detail subband at each level. The local intermittency at a position is
+    coeffs**2 / mean(coeffs**2), and LIM is the max over positions.
+    """
+    lim_stats = {}
+    for i, details in enumerate(detail_levels):
+        level = i + 1
+        lim_stats[level] = {}
+        for coeff_type in ['horizontal', 'vertical', 'diagonal']:
+            coeffs = details[coeff_type]
+            sq_coeffs = coeffs ** 2
+            mean_sq = np.mean(sq_coeffs)
+            if mean_sq == 0:
+                max_lim = 0
+            else:
+                max_lim = np.max(sq_coeffs) / mean_sq
+            lim_stats[level][coeff_type] = max_lim
+    return lim_stats
+
+
+def compute_npim(image_data):
+    """
+    Computes the Normalized Picture Information Measure (NPIM) for the image.
+    NPIM = 1 - max(p_i), where p_i is the normalized histogram probability.
+    """
+    flat = image_data.flatten().astype(int)
+    hist = np.bincount(flat, minlength=256)
+    N = flat.size
+    if N == 0:
+        return 0
+    max_h = np.max(hist)
+    max_p = max_h / N
+    npim = 1 - max_p
+    return npim
+
+
+def printNumber(number):
+    return f'{number:4f}'.replace(".", ',')
+
 def process_image_corrected(image_path):
     image_data = load_image(image_path)
     approx_levels, detail_levels = wavelet_2d(image_data)
@@ -242,21 +301,25 @@ def process_image_corrected(image_path):
     #         ratio_info = ratio_stats[level][coeff_type]
     #         print(f"  {coeff_type}: соотношение={ratio_info['energy_entropy_ratio']:.4f}")
 
-    for level in energy_stats.keys():
-        print(energy_stats[level]['std_approx'], 
-              energy_stats[level]['details']['horizontal']['raw_energy'],
-              energy_stats[level]['details']['horizontal']['std'], 
-              energy_stats[level]['details']['vertical']['raw_energy'], 
-              energy_stats[level]['details']['vertical']['std'], 
-              energy_stats[level]['details']['diagonal']['raw_energy'], 
-              energy_stats[level]['details']['diagonal']['std'], 
-              entropy_stats['approx'][level - 1]['corrected_entropy'], 
-              entropy_stats['horizontal'][level - 1]['corrected_entropy'], 
-              entropy_stats['vertical'][level - 1]['corrected_entropy'], 
-              entropy_stats['diagonal'][level - 1]['corrected_entropy']
-              )
+    lim_stats = compute_lim(detail_levels)
 
-    plot_corrected_analysis(energy_stats, entropy_stats)
+    for level in energy_stats.keys():
+        print(printNumber(energy_stats[level]['std_approx']),
+              printNumber(energy_stats[level]['details']['horizontal']['raw_energy']),
+              printNumber(energy_stats[level]['details']['horizontal']['std']),
+              printNumber(energy_stats[level]['details']['vertical']['raw_energy']),
+              printNumber(energy_stats[level]['details']['vertical']['std']),
+              printNumber(energy_stats[level]['details']['diagonal']['raw_energy']),
+              printNumber(energy_stats[level]['details']['diagonal']['std']),
+              printNumber(entropy_stats['approx'][level - 1]['corrected_entropy']),
+              printNumber(entropy_stats['horizontal'][level - 1]['corrected_entropy']),
+              printNumber(entropy_stats['vertical'][level - 1]['corrected_entropy']),
+              printNumber(entropy_stats['diagonal'][level - 1]['corrected_entropy']),
+              printNumber(lim_stats[level]['horizontal']),
+              printNumber(lim_stats[level]['vertical']),
+              printNumber(lim_stats[level]['diagonal']),
+              printNumber(compute_npim(image_data))
+              )
 
     return approx_levels, detail_levels, energy_stats, entropy_stats
 

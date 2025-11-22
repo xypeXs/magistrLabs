@@ -1,0 +1,120 @@
+Lvl1. STD approx                      0,73
+Lvl1. Details. Horizontal. Energy     0,46
+Lvl1. Details. Horizontal. Std        0,46
+Lvl1. Details. Vertical. Energy       0,66
+Lvl1. Details. Vertical. Std          0,69
+Lvl1. Details. Diagonal. Energy       0,44
+Lvl1. Details. Diagonal. Std          0,44
+Lvl1. Entropy. Approx                 0,53
+Lvl1. Entropy. Horizontal             0,45
+Lvl1. Entropy. Vertical               0,56
+Lvl1. Entropy. Diagonal               0,42
+Lvl1. lim. Horizontal                 0,46
+Lvl1. lim. Vertical                   0,66
+Lvl1. lim. Diagonal                   0,46
+Lvl1. NPIM                            0,75
+Lvl2. STD approx                      0,70
+Lvl2. Details. Horizontal. Energy     0,53
+Lvl2. Details. Horizontal. Std        0,53
+Lvl2. Details. Vertical. Energy       0,79
+Lvl2. Details. Vertical. Std          0,85
+Lvl2. Details. Diagonal. Energy       0,71
+Lvl2. Details. Diagonal. Std          0,72
+Lvl2. Entropy. Approx                 0,48
+Lvl2. Entropy. Horizontal             0,47
+Lvl2. Entropy. Vertical               0,61
+Lvl2. Entropy. Diagonal               0,51
+Lvl2. lim. Horizontal                 0,53
+Lvl2. lim. Vertical                   0,69
+Lvl2. lim. Diagonal                   0,43
+Lvl2. NPIM                            0,75
+Lvl3. STD approx                      0,64
+Lvl3. Details. Horizontal. Energy     0,57
+Lvl3. Details. Horizontal. Std        0,59
+Lvl3. Details. Vertical. Energy       0,61
+Lvl3. Details. Vertical. Std          0,64
+Lvl3. Details. Diagonal. Energy       0,51
+Lvl3. Details. Diagonal. Std          0,52
+Lvl3. Entropy. Approx                 0,49
+Lvl3. Entropy. Horizontal             0,49
+Lvl3. Entropy. Vertical               0,44
+Lvl3. Entropy. Diagonal               0,47
+Lvl3. lim. Horizontal                 0,59
+Lvl3. lim. Vertical                   0,52
+Lvl3. lim. Diagonal                   0,44
+Lvl3. NPIM                            0,75
+Lvl4. STD approx                      0,56
+Lvl4. Details. Horizontal. Energy     0,76
+Lvl4. Details. Horizontal. Std        0,80
+Lvl4. Details. Vertical. Energy       0,53
+Lvl4. Details. Vertical. Std          0,54
+Lvl4. Details. Diagonal. Energy       0,47
+Lvl4. Details. Diagonal. Std          0,46
+Lvl4. Entropy. Approx                 0,49
+Lvl4. Entropy. Horizontal             0,48
+Lvl4. Entropy. Vertical               0,52
+Lvl4. Entropy. Diagonal               0,53
+Lvl4. lim. Horizontal                 0,61
+Lvl4. lim. Vertical                   0,53
+Lvl4. lim. Diagonal                   0,45
+Lvl4. NPIM                            0,75
+Lvl5. STD approx                      0,45
+Lvl5. Details. Horizontal. Energy     0,71
+Lvl5. Details. Horizontal. Std        0,78
+Lvl5. Details. Vertical. Energy       0,53
+Lvl5. Details. Vertical. Std          0,54
+Lvl5. Details. Diagonal. Energy       0,45
+Lvl5. Details. Diagonal. Std          0,45
+Lvl5. Entropy. Approx                 0,48
+Lvl5. Entropy. Horizontal             0,58
+Lvl5. Entropy. Vertical               0,43
+Lvl5. Entropy. Diagonal               0,44
+Lvl5. lim. Horizontal                 0,45
+Lvl5. lim. Vertical                   0,75
+Lvl5. lim. Diagonal                   0,52
+Lvl5. NPIM                            0,75
+Lvl6. STD approx                      0,44
+Lvl6. Details. Horizontal. Energy     0,48
+Lvl6. Details. Horizontal. Std        0,49
+Lvl6. Details. Vertical. Energy       0,46
+Lvl6. Details. Vertical. Std          0,43
+Lvl6. Details. Diagonal. Energy       0,47
+Lvl6. Details. Diagonal. Std          0,47
+Lvl6. Entropy. Approx                 0,50
+Lvl6. Entropy. Horizontal             0,50
+Lvl6. Entropy. Vertical               0,53
+Lvl6. Entropy. Diagonal               0,42
+Lvl6. lim. Horizontal                 0,42
+Lvl6. lim. Vertical                   0,84
+Lvl6. lim. Diagonal                   0,45
+Lvl6. NPIM                            0,75
+Lvl7. STD approx                      0,47
+Lvl7. Details. Horizontal. Energy     0,49
+Lvl7. Details. Horizontal. Std        0,47
+Lvl7. Details. Vertical. Energy       0,49
+Lvl7. Details. Vertical. Std          0,52
+Lvl7. Details. Diagonal. Energy       0,59
+Lvl7. Details. Diagonal. Std          0,61
+Lvl7. Entropy. Approx                 0,51
+Lvl7. Entropy. Horizontal             0,48
+Lvl7. Entropy. Vertical               0,56
+Lvl7. Entropy. Diagonal               0,63
+Lvl7. lim. Horizontal                 0,50
+Lvl7. lim. Vertical                   0,58
+Lvl7. lim. Diagonal                   0,49
+Lvl7. NPIM                            0,75
+Lvl8. STD approx                      0,00
+Lvl8. Details. Horizontal. Energy     0,46
+Lvl8. Details. Horizontal. Std        0,00
+Lvl8. Details. Vertical. Energy       0,52
+Lvl8. Details. Vertical. Std          0,00
+Lvl8. Details. Diagonal. Energy       0,47
+Lvl8. Details. Diagonal. Std          0,00
+Lvl8. Entropy. Approx                 0,00
+Lvl8. Entropy. Horizontal             0,00
+Lvl8. Entropy. Vertical               0,00
+Lvl8. Entropy. Diagonal               0,00
+Lvl7. lim. Horizontal                 0,00
+Lvl7. lim. Vertical                   0,00
+Lvl7. lim. Diagonal                   0,00
+Lvl7. NPIM                            0,75
