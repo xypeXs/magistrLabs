@@ -1,0 +1,292 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="edu.rsatu.encryption.MainWindow">
+  <grid id="27dc6" binding="jPanel" layout-manager="GridLayoutManager" row-count="14" column-count="9" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+    <margin top="0" left="0" bottom="0" right="0"/>
+    <constraints>
+      <xy x="20" y="20" width="1051" height="423"/>
+    </constraints>
+    <properties/>
+    <border type="none"/>
+    <children>
+      <vspacer id="daef1">
+        <constraints>
+          <grid row="13" column="1" row-span="1" col-span="1" vsize-policy="7" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false">
+            <minimum-size width="10" height="10"/>
+          </grid>
+        </constraints>
+      </vspacer>
+      <vspacer id="a487e">
+        <constraints>
+          <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="7" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false">
+            <minimum-size width="10" height="10"/>
+          </grid>
+        </constraints>
+      </vspacer>
+      <component id="f2392" class="javax.swing.JButton" binding="buttonInput">
+        <constraints>
+          <grid row="2" column="7" row-span="1" col-span="1" vsize-policy="7" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties>
+          <text value="ВВОД"/>
+        </properties>
+      </component>
+      <component id="43a61" class="javax.swing.JTextField" binding="textFieldInformationalSequence">
+        <constraints>
+          <grid row="2" column="1" row-span="1" col-span="5" vsize-policy="7" hsize-policy="7" anchor="8" fill="3" indent="0" use-parent-layout="false">
+            <preferred-size width="150" height="-1"/>
+          </grid>
+        </constraints>
+        <properties>
+          <text value=""/>
+          <toolTipText value=""/>
+        </properties>
+      </component>
+      <component id="bd69b" class="javax.swing.JTextField" binding="textFieldK">
+        <constraints>
+          <grid row="4" column="1" row-span="1" col-span="1" vsize-policy="7" hsize-policy="7" anchor="8" fill="3" indent="0" use-parent-layout="false">
+            <preferred-size width="150" height="-1"/>
+          </grid>
+        </constraints>
+        <properties/>
+      </component>
+      <component id="97652" class="javax.swing.JTextField" binding="textFieldM">
+        <constraints>
+          <grid row="4" column="2" row-span="1" col-span="1" vsize-policy="7" hsize-policy="7" anchor="8" fill="3" indent="0" use-parent-layout="false">
+            <preferred-size width="150" height="-1"/>
+          </grid>
+        </constraints>
+        <properties/>
+      </component>
+      <component id="9be18" class="javax.swing.JComboBox" binding="comboBoxFunctionGx">
+        <constraints>
+          <grid row="4" column="4" row-span="1" col-span="2" vsize-policy="7" hsize-policy="3" anchor="8" fill="3" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties/>
+      </component>
+      <component id="b4511" class="javax.swing.JButton" binding="buttonEncode">
+        <constraints>
+          <grid row="4" column="7" row-span="1" col-span="1" vsize-policy="7" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties>
+          <text value="КОДИРОВАТЬ"/>
+        </properties>
+      </component>
+      <component id="b585d" class="javax.swing.JTextField" binding="textFieldEncodedSequence">
+        <constraints>
+          <grid row="6" column="1" row-span="1" col-span="5" vsize-policy="7" hsize-policy="7" anchor="8" fill="3" indent="0" use-parent-layout="false">
+            <preferred-size width="150" height="-1"/>
+          </grid>
+        </constraints>
+        <properties/>
+      </component>
+      <component id="caa5a" class="javax.swing.JComboBox" binding="comboBoxRemainders">
+        <constraints>
+          <grid row="6" column="7" row-span="1" col-span="1" vsize-policy="7" hsize-policy="2" anchor="8" fill="3" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties/>
+      </component>
+      <component id="8bda5" class="javax.swing.JTextField" binding="textFieldEncodedSequenceAck">
+        <constraints>
+          <grid row="8" column="1" row-span="1" col-span="5" vsize-policy="7" hsize-policy="7" anchor="8" fill="3" indent="0" use-parent-layout="false">
+            <preferred-size width="150" height="-1"/>
+          </grid>
+        </constraints>
+        <properties/>
+      </component>
+      <component id="4c480" class="javax.swing.JButton" binding="buttonDecode">
+        <constraints>
+          <grid row="8" column="7" row-span="1" col-span="1" vsize-policy="7" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties>
+          <text value="ДЕКОДИРОВАТЬ"/>
+        </properties>
+      </component>
+      <component id="73ef6" class="javax.swing.JTextField" binding="textFieldS">
+        <constraints>
+          <grid row="10" column="1" row-span="1" col-span="1" vsize-policy="7" hsize-policy="7" anchor="8" fill="3" indent="0" use-parent-layout="false">
+            <preferred-size width="150" height="-1"/>
+          </grid>
+        </constraints>
+        <properties/>
+      </component>
+      <component id="be4c5" class="javax.swing.JTextField" binding="textFieldR">
+        <constraints>
+          <grid row="10" column="4" row-span="1" col-span="1" vsize-policy="7" hsize-policy="7" anchor="8" fill="3" indent="0" use-parent-layout="false">
+            <preferred-size width="150" height="-1"/>
+          </grid>
+        </constraints>
+        <properties/>
+      </component>
+      <component id="e5818" class="javax.swing.JTextField" binding="textFieldN">
+        <constraints>
+          <grid row="10" column="5" row-span="1" col-span="1" vsize-policy="7" hsize-policy="7" anchor="8" fill="3" indent="0" use-parent-layout="false">
+            <preferred-size width="150" height="-1"/>
+          </grid>
+        </constraints>
+        <properties/>
+      </component>
+      <component id="cd95e" class="javax.swing.JTextField" binding="textFieldEps">
+        <constraints>
+          <grid row="10" column="2" row-span="1" col-span="2" vsize-policy="7" hsize-policy="7" anchor="8" fill="3" indent="0" use-parent-layout="false">
+            <preferred-size width="150" height="-1"/>
+          </grid>
+        </constraints>
+        <properties/>
+      </component>
+      <hspacer id="af177">
+        <constraints>
+          <grid row="0" column="3" row-span="1" col-span="1" vsize-policy="1" hsize-policy="7" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+        </constraints>
+      </hspacer>
+      <component id="f6fb2" class="javax.swing.JTextField" binding="textFieldResult">
+        <constraints>
+          <grid row="12" column="1" row-span="1" col-span="5" vsize-policy="7" hsize-policy="7" anchor="8" fill="3" indent="0" use-parent-layout="false">
+            <preferred-size width="150" height="-1"/>
+          </grid>
+        </constraints>
+        <properties/>
+      </component>
+      <component id="a1d5b" class="javax.swing.JButton" binding="buttonExit">
+        <constraints>
+          <grid row="12" column="7" row-span="1" col-span="1" vsize-policy="7" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties>
+          <text value="ВЫХОД"/>
+        </properties>
+      </component>
+      <component id="af184" class="javax.swing.JLabel">
+        <constraints>
+          <grid row="1" column="1" row-span="1" col-span="5" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties>
+          <horizontalAlignment value="0"/>
+          <horizontalTextPosition value="0"/>
+          <text value="Информационная последовательность"/>
+        </properties>
+      </component>
+      <hspacer id="9e7b5">
+        <constraints>
+          <grid row="2" column="8" row-span="1" col-span="1" vsize-policy="1" hsize-policy="7" anchor="0" fill="1" indent="0" use-parent-layout="false">
+            <minimum-size width="10" height="10"/>
+          </grid>
+        </constraints>
+      </hspacer>
+      <hspacer id="9ba35">
+        <constraints>
+          <grid row="2" column="6" row-span="1" col-span="1" vsize-policy="1" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+        </constraints>
+      </hspacer>
+      <hspacer id="79745">
+        <constraints>
+          <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="1" hsize-policy="7" anchor="0" fill="1" indent="0" use-parent-layout="false">
+            <minimum-size width="10" height="10"/>
+          </grid>
+        </constraints>
+      </hspacer>
+      <component id="ec189" class="javax.swing.JLabel">
+        <constraints>
+          <grid row="3" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties>
+          <text value="k"/>
+        </properties>
+      </component>
+      <component id="adcc6" class="javax.swing.JLabel">
+        <constraints>
+          <grid row="3" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties>
+          <text value="m"/>
+        </properties>
+      </component>
+      <component id="58d93" class="javax.swing.JLabel">
+        <constraints>
+          <grid row="3" column="4" row-span="1" col-span="2" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties>
+          <text value="g(x)"/>
+        </properties>
+      </component>
+      <component id="19a2f" class="javax.swing.JLabel">
+        <constraints>
+          <grid row="5" column="1" row-span="1" col-span="5" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties>
+          <text value="Кодовая комбинация"/>
+        </properties>
+      </component>
+      <component id="c8ebe" class="javax.swing.JLabel">
+        <constraints>
+          <grid row="7" column="1" row-span="1" col-span="5" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties>
+          <text value="Принятая кодовая комбинация"/>
+        </properties>
+      </component>
+      <component id="c8901" class="javax.swing.JLabel">
+        <constraints>
+          <grid row="9" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties>
+          <text value="S"/>
+        </properties>
+      </component>
+      <component id="4865c" class="javax.swing.JLabel">
+        <constraints>
+          <grid row="9" column="2" row-span="1" col-span="2" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties>
+          <text value="ε"/>
+        </properties>
+      </component>
+      <component id="e0a78" class="javax.swing.JLabel">
+        <constraints>
+          <grid row="9" column="4" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties>
+          <text value="r"/>
+        </properties>
+      </component>
+      <component id="7de19" class="javax.swing.JLabel">
+        <constraints>
+          <grid row="9" column="5" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties>
+          <text value="N"/>
+        </properties>
+      </component>
+      <component id="3a8c3" class="javax.swing.JLabel">
+        <constraints>
+          <grid row="11" column="1" row-span="1" col-span="5" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties>
+          <text value="Результат"/>
+        </properties>
+      </component>
+      <component id="2200" class="javax.swing.JTextField" binding="textFieldNEncode">
+        <constraints>
+          <grid row="4" column="3" row-span="1" col-span="1" vsize-policy="7" hsize-policy="7" anchor="8" fill="3" indent="0" use-parent-layout="false">
+            <preferred-size width="150" height="-1"/>
+          </grid>
+        </constraints>
+        <properties/>
+      </component>
+      <component id="f3dbf" class="javax.swing.JLabel">
+        <constraints>
+          <grid row="3" column="3" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties>
+          <text value="n"/>
+        </properties>
+      </component>
+      <component id="f36c1" class="javax.swing.JLabel">
+        <constraints>
+          <grid row="5" column="7" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties>
+          <text value="Остатки"/>
+        </properties>
+      </component>
+    </children>
+  </grid>
+</form>
