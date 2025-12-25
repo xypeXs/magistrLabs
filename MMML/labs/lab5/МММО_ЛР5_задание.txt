@@ -1,0 +1,4 @@
+Обучить модель GAN (енеративно-состязательная сеть) на данных лиц знаменитостей (CelebA Faces Kaggle)
+https://github.com/Debopriya-ai/CelebGAN/blob/main/Lab10_DL__Debo%20(1).ipynb
+
++ добавить графики потерь и больше генерации, на разных эпохах

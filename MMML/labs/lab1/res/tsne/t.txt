@@ -1,0 +1,24 @@
+Загрузка всех траекторий...
+Всего файлов-траекторий: 839
+Размер матрицы признаков: (839, 300) (n_files x traj_len*3)
+PCA перед t-SNE: reduced features 300 -> 50
+Запускаем t-SNE: n_samples=839, perplexity=30.0, dims=3
+[t-SNE] Computing 91 nearest neighbors...
+[t-SNE] Indexed 839 samples in 0.001s...
+[t-SNE] Computed neighbors for 839 samples in 1.340s...
+[t-SNE] Computed conditional probabilities for sample 839 / 839
+[t-SNE] Mean sigma: 3.985677
+[t-SNE] KL divergence after 250 iterations with early exaggeration: 57.131828
+[t-SNE] KL divergence after 1000 iterations: 0.471788
+[k=5] silhouette=0.5099499821662903, avg_intra_cluster_dist=4.040190094844377, n_clusters_reported=5
+[k=10] silhouette=0.3902890384197235, avg_intra_cluster_dist=3.074524704975224, n_clusters_reported=10
+[k=15] silhouette=0.37647393345832825, avg_intra_cluster_dist=2.5785742090200214, n_clusters_reported=15
+[k=25] silhouette=0.33974531292915344, avg_intra_cluster_dist=1.9751157644110442, n_clusters_reported=25
+
+--- РЕЗУЛЬТАТЫ ---
+k=5: silhouette=0.5099499821662903, avg_intra_cluster_dist=4.040190094844377, reported_clusters=5
+k=10: silhouette=0.3902890384197235, avg_intra_cluster_dist=3.074524704975224, reported_clusters=10
+k=15: silhouette=0.37647393345832825, avg_intra_cluster_dist=2.5785742090200214, reported_clusters=15
+k=25: silhouette=0.33974531292915344, avg_intra_cluster_dist=1.9751157644110442, reported_clusters=25
+
+Лучший по silhouette: k=5, silhouette=0.5099499821662903, avg_intra=4.040190094844377

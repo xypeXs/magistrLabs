@@ -1,0 +1,4 @@
+Completed KMeans k=5: silhouette=0.32620350840284545, avg_intra=2.7230200167760756
+Completed KMeans k=10: silhouette=0.21950832386418423, avg_intra=2.3250138046603523
+Completed KMeans k=15: silhouette=0.20045602727495251, avg_intra=2.1992985688768782
+Completed KMeans k=25: silhouette=0.16742821700311808, avg_intra=1.9446589263740441
