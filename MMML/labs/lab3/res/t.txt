@@ -1,0 +1,28 @@
+Time Momentum: 0.061018943786621094 sec
+Time Adagrad: 1.3297059535980225 sec
+Time Adam: 1.3657634258270264 sec
+Time RMSProp: 1.3251466751098633 sec
+Momentum, batch_size=1, test_error=1.136885
+Momentum, batch_size=4, test_error=1.026788
+Momentum, batch_size=16, test_error=1.022192
+Momentum, batch_size=64, test_error=1.018094
+Momentum, batch_size=256, test_error=1.019190
+Momentum, batch_size=512, test_error=1.019286
+Adagrad, batch_size=1, test_error=47.888311
+Adagrad, batch_size=4, test_error=45.056926
+Adagrad, batch_size=16, test_error=41.485716
+Adagrad, batch_size=64, test_error=41.206789
+Adagrad, batch_size=256, test_error=41.164483
+Adagrad, batch_size=512, test_error=41.134872
+Adam, batch_size=1, test_error=1.035848
+Adam, batch_size=4, test_error=1.021362
+Adam, batch_size=16, test_error=1.018808
+Adam, batch_size=64, test_error=1.019473
+Adam, batch_size=256, test_error=1.019358
+Adam, batch_size=512, test_error=1.019172
+RMSProp, batch_size=1, test_error=36.398784
+RMSProp, batch_size=4, test_error=1.018627
+RMSProp, batch_size=16, test_error=1.022045
+RMSProp, batch_size=64, test_error=1.018688
+RMSProp, batch_size=256, test_error=1.018794
+RMSProp, batch_size=512, test_error=1.019433
