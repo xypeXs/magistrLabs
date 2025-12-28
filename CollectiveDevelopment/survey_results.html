@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Результаты опроса по курсовой работе</title>
+    <style>
+        :root {
+            --primary: #1a237e;
+            --secondary: #3949ab;
+            --accent: #00bcd4;
+            --success: #4caf50;
+            --warning: #ff9800;
+            --light: #f5f7ff;
+            --dark: #0d1533;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Roboto', 'Segoe UI', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #e8f5e9 0%, #f1f8e9 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+        
+        header {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 40px 30px;
+            text-align: center;
+        }
+        
+        h1 {
+            font-size: 2.4rem;
+            margin-bottom: 10px;
+        }
+        
+        .subtitle {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+        
+        .results-section {
+            padding: 30px;
+        }
+        
+        h2 {
+            color: var(--primary);
+            margin-bottom: 25px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--light);
+        }
+        
+        .table-container {
+            overflow-x: auto;
+            margin: 30px 0;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+        }
+        
+        .results-table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 800px;
+        }
+        
+        .results-table th {
+            background: linear-gradient(135deg, var(--secondary), var(--primary));
+            color: white;
+            padding: 18px 15px;
+            text-align: center;
+            font-weight: 600;
+            position: sticky;
+            top: 0;
+        }
+        
+        .results-table td {
+            padding: 16px 15px;
+            text-align: center;
+            border-bottom: 1px solid #e0e0e0;
+        }
+        
+        .results-table tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+        
+        .results-table tr:hover {
+            background-color: #f0f4ff;
+        }
+        
+        .student-name {
+            font-weight: 600;
+            color: var(--primary);
+            text-align: left;
+        }
+        
+        .correct {
+            background-color: #e8f5e9 !important;
+            color: #2e7d32;
+            font-weight: 600;
+        }
+        
+        .incorrect {
+            background-color: #ffebee !important;
+            color: #c62828;
+        }
+        
+        .stats-box {
+            background: #e3f2fd;
+            border-radius: 15px;
+            padding: 25px;
+            margin: 30px 0;
+            border-left: 5px solid var(--accent);
+        }
+        
+        .stat-item {
+            display: flex;
+            justify-content: space-between;
+            margin: 12px 0;
+            padding: 10px 0;
+            border-bottom: 1px dashed #b0bec5;
+        }
+        
+        .stat-value {
+            font-weight: 600;
+            color: var(--primary);
+        }
+        
+        .conclusions {
+            background: #f1f8e9;
+            border-radius: 15px;
+            padding: 30px;
+            margin-top: 30px;
+            border: 1px solid #c5e1a5;
+        }
+        
+        .conclusion-item {
+            margin: 20px 0;
+            padding-left: 20px;
+            position: relative;
+        }
+        
+        .conclusion-item::before {
+            content: '•';
+            color: var(--success);
+            font-size: 1.5rem;
+            position: absolute;
+            left: 0;
+            top: -5px;
+        }
+        
+        .legend {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+            margin-top: 20px;
+        }
+        
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .legend-color {
+            width: 20px;
+            height: 20px;
+            border-radius: 4px;
+        }
+        
+        .footer {
+            background: var(--dark);
+            color: white;
+            text-align: center;
+            padding: 25px;
+            margin-top: 40px;
+        }
+        
+        .institution {
+            font-size: 0.9rem;
+            opacity: 0.8;
+            margin-top: 10px;
+        }
+        
+        .back-btn {
+            background: var(--accent);
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 50px;
+            cursor: pointer;
+            font-size: 1rem;
+            margin-top: 20px;
+            transition: all 0.3s ease;
+        }
+        
+        .back-btn:hover {
+            background: #00acc1;
+            transform: translateY(-2px);
+        }
+        
+        @media (max-width: 768px) {
+            .results-section {
+                padding: 20px;
+            }
+            
+            h1 {
+                font-size: 1.8rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Результаты практического опроса</h1>
+            <div class="subtitle">Группа ПИМ-24 • Курсовая: «Прогнозирование траектории движения объектов»</div>
+        </header>
+        
+        <div class="results-section">
+            <h2>📊 Ответы студентов на практические задачи</h2>
+            
+            <div class="table-container">
+                <table class="results-table">
+                    <thead>
+                        <tr>
+                            <th>Студент</th>
+                            <th>Вопрос 1<br>Фильтр Калмана</th>
+                            <th>Вопрос 2<br>Горизонт прогноза</th>
+                            <th>Вопрос 3<br>Оптимизация ресурсов</th>
+                            <th>Вопрос 4<br>Мультимодальность</th>
+                            <th>Правильных<br>ответов</th>
+                            <th>Оценка</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="student-name">Иванов А.С.</td>
+                            <td class="correct">K = 0.714 ✓</td>
+                            <td class="correct">1.8 секунды ✓</td>
+                            <td class="correct">До 33% объектов ✓</td>
+                            <td class="incorrect">12 траекторий, H = 1.36 бит ✗</td>
+                            <td>3</td>
+                            <td>Хорошо</td>
+                        </tr>
+                        <tr>
+                            <td class="student-name">Петрова М.К.</td>
+                            <td class="correct">K = 0.714 ✓</td>
+                            <td class="incorrect">2.5 секунды ✗</td>
+                            <td class="correct">До 33% объектов ✓</td>
+                            <td class="correct">9 траекторий, H = 1.36 бит ✓</td>
+                            <td>3</td>
+                            <td>Хорошо</td>
+                        </tr>
+                        <tr>
+                            <td class="student-name">Сидоров В.П.</td>
+                            <td class="incorrect">K = 0.545 ✗</td>
+                            <td class="correct">1.8 секунды ✓</td>
+                            <td class="correct">До 33% объектов ✓</td>
+                            <td class="correct">9 траекторий, H = 1.36 бит ✓</td>
+                            <td>3</td>
+                            <td>Хорошо</td>
+                        </tr>
+                        <tr>
+                            <td class="student-name">Козлова Е.Д.</td>
+                            <td class="correct">K = 0.714 ✓</td>
+                            <td class="correct">1.8 секунды ✓</td>
+                            <td class="incorrect">До 45% объектов ✗</td>
+                            <td class="correct">9 траекторий, H = 1.36 бит ✓</td>
+                            <td>3</td>
+                            <td>Хорошо</td>
+                        </tr>
+                        <tr>
+                            <td class="student-name">Морозов И.А.</td>
+                            <td class="correct">K = 0.714 ✓</td>
+                            <td class="correct">1.8 секунды ✓</td>
+                            <td class="correct">До 33% объектов ✓</td>
+                            <td class="correct">9 траекторий, H = 1.36 бит ✓</td>
+                            <td>4</td>
+                            <td>Отлично</td>
+                        </tr>
+                        <tr>
+                            <td class="student-name">Никитина О.В.</td>
+                            <td class="incorrect">K = 0.667 ✗</td>
+                            <td class="incorrect">1.2 секунды ✗</td>
+                            <td class="correct">До 33% объектов ✓</td>
+                            <td class="incorrect">9 траекторий, H = 1.22 бит ✗</td>
+                            <td>1</td>
+                            <td>Удовлетворительно</td>
+                        </tr>
+                        <tr>
+                            <td class="student-name">Васильев Д.С.</td>
+                            <td class="correct">K = 0.714 ✓</td>
+                            <td class="correct">1.8 секунды ✓</td>
+                            <td class="incorrect">До 50% объектов ✗</td>
+                            <td class="incorrect">12 траекторий, H = 1.22 бит ✗</td>
+                            <td>2</td>
+                            <td>Удовлетворительно</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            
+            <div class="legend">
+                <div class="legend-item">
+                    <div class="legend-color" style="background-color: #e8f5e9;"></div>
+                    <span>Правильный ответ</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color" style="background-color: #ffebee;"></div>
+                    <span>Неправильный ответ</span>
+                </div>
+            </div>
+            
+            <div class="stats-box">
+                <h3>Статистика опроса</h3>
+                <div class="stat-item">
+                    <span>Средний балл по группе:</span>
+                    <span class="stat-value">2.71 из 4 (67.8%)</span>
+                </div>
+                <div class="stat-item">
+                    <span>Наиболее сложный вопрос:</span>
+                    <span class="stat-value">Вопрос 4 (Мультимодальность) - 57% правильных</span>
+                </div>
+                <div class="stat-item">
+                    <span>Наиболее простой вопрос:</span>
+                    <span class="stat-value">Вопрос 1 (Фильтр Калмана) - 71% правильных</span>
+                </div>
+                <div class="stat-item">
+                    <span>Процент отличных оценок:</span>
+                    <span class="stat-value">14.3% (1 студент)</span>
+                </div>
+                <div class="stat-item">
+                    <span>Процент хороших оценок:</span>
+                    <span class="stat-value">57.1% (4 студента)</span>
+                </div>
+            </div>
+            
+            <div style="text-align: center; margin-top: 30px;">
+                <button class="back-btn" onclick="window.close()">← Вернуться к опросу</button>
+            </div>
+        
+        <div class="footer">
+            <p>Анализ результатов практического опроса • Группа ПИМ-24</p>
+            <div class="institution">
+                Институт Информационные технологии и системы управления.<br>
+                Кафедра математического и программного обеспечения электронных вычислительных средств
+            </div>
+        </div>
+    </div>
+</body>
+</html>

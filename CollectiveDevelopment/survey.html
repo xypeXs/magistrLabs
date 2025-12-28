@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Опрос по курсовой: Прогнозирование траекторий</title>
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <style>
+        :root {
+            --primary: #1a237e;
+            --secondary: #3949ab;
+            --accent: #00bcd4;
+            --success: #4caf50;
+            --warning: #ff9800;
+            --light: #f5f7ff;
+            --dark: #0d1533;
+            --card-bg: #ffffff;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Roboto', 'Segoe UI', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #e3f2fd 0%, #f3e5f5 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+        
+        header {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 40px 30px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 1px, transparent 1px);
+            background-size: 20px 20px;
+            animation: float 20s linear infinite;
+        }
+        
+        @keyframes float {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        h1 {
+            font-size: 2.4rem;
+            margin-bottom: 10px;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .subtitle {
+            font-size: 1.1rem;
+            opacity: 0.9;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .question-card {
+            background: var(--card-bg);
+            border-radius: 15px;
+            margin: 25px;
+            padding: 30px;
+            border-left: 5px solid var(--accent);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+            transition: transform 0.3s ease;
+        }
+        
+        .question-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        h2 {
+            color: var(--primary);
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .question-number {
+            background: var(--accent);
+            color: white;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+        
+        .task-box {
+            background: #f0f4ff;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+            border: 1px dashed var(--secondary);
+        }
+        
+        .options {
+            margin-top: 25px;
+        }
+        
+        .option {
+            background: var(--light);
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            padding: 15px;
+            margin: 10px 0;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+        }
+        
+        .option:hover {
+            border-color: var(--accent);
+            background: #e8f4ff;
+        }
+        
+        .option input {
+            margin-right: 15px;
+            transform: scale(1.2);
+        }
+        
+        .formula {
+            background: #fff8e1;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+            font-family: 'Courier New', monospace;
+            border-left: 4px solid var(--warning);
+        }
+        
+        .submit-btn {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            border: none;
+            padding: 18px 40px;
+            font-size: 1.1rem;
+            border-radius: 50px;
+            cursor: pointer;
+            display: block;
+            margin: 40px auto;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(26, 35, 126, 0.3);
+        }
+        
+        .submit-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(26, 35, 126, 0.4);
+        }
+        
+        .info-box {
+            background: #e8f5e9;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 25px;
+            border-left: 4px solid var(--success);
+        }
+        
+        footer {
+            background: var(--dark);
+            color: white;
+            text-align: center;
+            padding: 25px;
+            margin-top: 40px;
+        }
+        
+        .institution {
+            font-size: 0.9rem;
+            opacity: 0.8;
+            margin-top: 10px;
+        }
+        
+        @media (max-width: 768px) {
+            .question-card {
+                margin: 15px;
+                padding: 20px;
+            }
+            
+            h1 {
+                font-size: 1.8rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Практический опрос</h1>
+            <div class="subtitle">«Прогнозирование траектории движения объектов»</div>
+        </header>
+        
+        <div class="info-box">
+            <strong>📝 Инструкция:</strong> Решите практические задачи, выбрав правильный ответ
+        </div>
+
+        <!-- Вопрос 1 -->
+        <div class="question-card">
+            <h2><span class="question-number">1</span>Расчёт параметров фильтра Калмана</h2>
+            <div class="task-box">
+                <p><strong>Задача:</strong> Для системы трекинга автомобиля заданы: дисперсия шума измерения R = 4 м², дисперсия шума процесса Q = 1 м². Начальная ошибка оценки P₀ = 10 м².</p>
+                <p>Рассчитайте коэффициент усиления Калмана (K) после первого шага фильтрации.</p>
+                <div class="formula">
+                    Формулы: <br>
+                    Pₖ⁻ = Pₖ₋₁ + Q (экстраполяция ошибки)<br>
+                    Kₖ = Pₖ⁻ / (Pₖ⁻ + R) (коэффициент усиления)<br>
+                    Pₖ = (1 - Kₖ) * Pₖ⁻ (обновление ошибки)
+                </div>
+            </div>
+            <div class="options">
+                <label class="option">
+                    <input type="radio" name="q1" value="a">
+                    <span>K = 0.714</span>
+                </label>
+                <label class="option">
+                    <input type="radio" name="q1" value="b">
+                    <span>K = 0.545</span>
+                </label>
+                <label class="option">
+                    <input type="radio" name="q1" value="c">
+                    <span>K = 0.833</span>
+                </label>
+                <label class="option">
+                    <input type="radio" name="q1" value="d">
+                    <span>K = 0.667</span>
+                </label>
+            </div>
+        </div>
+
+        <!-- Вопрос 2 -->
+        <div class="question-card">
+            <h2><span class="question-number">2</span>Прогноз траектории с учётом шумов</h2>
+            <div class="task-box">
+                <p><strong>Задача:</strong> Дрон движется прямолинейно со скоростью 10 м/с. Система измеряет его положение с частотой 10 Гц. Среднеквадратичная ошибка измерения составляет 0.5 м.</p>
+                <p>Какой горизонт прогнозирования (в секундах) обеспечит ошибку прогноза не более 2 м, если использовать модель постоянной скорости?</p>
+                <div class="formula">
+                    Ошибка прогноза: σₚ = √(σₘ² + (v * t * σᵥ)²)<br>
+                    где σₘ - ошибка измерения, v - скорость, t - время прогноза, σᵥ - ошибка скорости
+                </div>
+            </div>
+            <div class="options">
+                <label class="option">
+                    <input type="radio" name="q2" value="a">
+                    <span>1.2 секунды</span>
+                </label>
+                <label class="option">
+                    <input type="radio" name="q2" value="b">
+                    <span>1.8 секунды</span>
+                </label>
+                <label class="option">
+                    <input type="radio" name="q2" value="c">
+                    <span>2.5 секунды</span>
+                </label>
+                <label class="option">
+                    <input type="radio" name="q2" value="d">
+                    <span>3.0 секунды</span>
+                </label>
+            </div>
+        </div>
+
+        <!-- Вопрос 3 -->
+        <div class="question-card">
+            <h2><span class="question-number">3</span>Оптимизация вычислительных ресурсов</h2>
+            <div class="task-box">
+                <p><strong>Задача:</strong> Модуль ПТДО обрабатывает 50 объектов одновременно. Время обработки одного объекта линейной моделью составляет 2 мс, LSTM моделью - 20 мс.</p>
+                <p>Какой процент объектов можно обрабатывать LSTM моделью, чтобы не превысить общее время обработки в 200 мс?</p>
+                <div class="formula">
+                    Общее время: T = n₁*t₁ + n₂*t₂<br>
+                    где n₁ - число объектов с моделью 1, n₂ - с моделью 2<br>
+                    n₁ + n₂ = 50
+                </div>
+            </div>
+            <div class="options">
+                <label class="option">
+                    <input type="radio" name="q3" value="a">
+                    <span>До 11% объектов</span>
+                </label>
+                <label class="option">
+                    <input type="radio" name="q3" value="b">
+                    <span>До 22% объектов</span>
+                </label>
+                <label class="option">
+                    <input type="radio" name="q3" value="c">
+                    <span>До 30% объектов</span>
+                </label>
+                <label class="option">
+                    <input type="radio" name="q3" value="d">
+                    <span>До 50% объектов</span>
+                </label>
+            </div>
+        </div>
+
+        <!-- Вопрос 4 -->
+        <div class="question-card">
+            <h2><span class="question-number">4</span>Анализ мультимодальности прогноза</h2>
+            <div class="task-box">
+                <p><strong>Задача:</strong> На перекрестке автомобиль может повернуть налево (вероятность 0.4), продолжить прямо (0.5) или повернуть направо (0.1).</p>
+                <p>Система генерирует по 3 траектории для каждого варианта. Сколько всего траекторий будет в мультимодальном прогнозе и каков информационный энтропийный критерий выбора?</p>
+                <div class="formula">
+                    Энтропия: H = -∑ pᵢ * log₂(pᵢ)<br>
+                    где pᵢ - вероятность i-го исхода
+                </div>
+            </div>
+            <div class="options">
+                <label class="option">
+                    <input type="radio" name="q4" value="a">
+                    <span>9 траекторий, H = 1.36 бит</span>
+                </label>
+                <label class="option">
+                    <input type="radio" name="q4" value="b">
+                    <span>9 траекторий, H = 1.22 бит</span>
+                </label>
+                <label class="option">
+                    <input type="radio" name="q4" value="c">
+                    <span>12 траекторий, H = 1.36 бит</span>
+                </label>
+                <label class="option">
+                    <input type="radio" name="q4" value="d">
+                    <span>12 траекторий, H = 1.22 бит</span>
+                </label>
+            </div>
+        </div>
+
+        <footer>
+            <div class="institution">
+                Институт Информационные технологии и системы управления.<br>
+                Кафедра математического и программного обеспечения электронных вычислительных средств
+            </div>
+        </footer>
+    </div>
+
+    <script>
+        
+        // Подсветка выбранных ответов
+        document.querySelectorAll('.option input').forEach(radio => {
+            radio.addEventListener('change', function() {
+                // Снимаем выделение со всех опций в этом вопросе
+                const questionCard = this.closest('.question-card');
+                questionCard.querySelectorAll('.option').forEach(opt => {
+                    opt.style.background = '';
+                    opt.style.borderColor = '#e0e0e0';
+                });
+                
+                // Подсвечиваем выбранную опцию
+                const selectedOption = this.closest('.option');
+                selectedOption.style.background = '#e3f2fd';
+                selectedOption.style.borderColor = 'var(--accent)';
+            });
+        });
+    </script>
+</body>
+</html>
